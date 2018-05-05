@@ -9,24 +9,24 @@ public class Salle {
 
     @Id
     @GeneratedValue
-    int ID_salle;
+    long idSalle;
     String nom;
-    int ID_etablissement;
+    long idEtablissement;
 
-    public Salle(String nom, int ID_etablissement) {
+    public Salle(String nom, long idEtablissement) {
         this.nom = nom;
-        this.ID_etablissement = ID_etablissement;
+        this.idEtablissement = idEtablissement;
     }
 
     public Salle() {
     }
 
-    public int getID_salle() {
-        return ID_salle;
+    public long getIdSalle() {
+        return idSalle;
     }
 
-    public void setID_salle(int ID_salle) {
-        this.ID_salle = ID_salle;
+    public void setIdSalle(long idSalle) {
+        this.idSalle = idSalle;
     }
 
     public String getNom() {
@@ -37,11 +37,11 @@ public class Salle {
         this.nom = nom;
     }
 
-    public int getID_etablissement() {
-        return ID_etablissement;
+    public long getIdEtablissement() {
+        return idEtablissement;
     }
 
-    public void setID_etablissement(int ID_etablissement) {
-        this.ID_etablissement = ID_etablissement;
+    public void setIdEtablissement(long idEtablissement) {
+        this.idEtablissement = idEtablissement;
     }
 }
