@@ -15,25 +15,25 @@ import java.util.List;
 public class UtilisateurController {
 
     @Autowired
-    UtilisateurRepository URepository;
+    UtilisateurRepository utilisateurRepository;
 
     // Get All
     @GetMapping("/all")
     public List<Utilisateur> getAllUtilisateur() {
-        return URepository.findAll();
+        return utilisateurRepository.findAll();
     }
 
     // Create a new
     @PostMapping("/add")
     public Utilisateur createUtilisateur(@Valid @RequestBody Utilisateur utilisateur) {
-        return URepository.save(utilisateur);
+        return utilisateurRepository.save(utilisateur);
     }
 
 
     // Get a Single
     @GetMapping("/get/{id}")
     public Utilisateur getUtilisateurById(@PathVariable(value = "id") long utilisateurId) {
-        return URepository.findById(utilisateurId)
+        return utilisateurRepository.findById(utilisateurId)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur", "id", utilisateurId));
     }
 
@@ -42,7 +42,7 @@ public class UtilisateurController {
     public Utilisateur updateUtilisateur(@PathVariable(value = "id") Long utilisateurId,
                            @Valid @RequestBody Utilisateur utilisateurDetails) {
 
-        Utilisateur utilisateur = URepository.findById(utilisateurId)
+        Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur", "id", utilisateurId));
 
         utilisateur.setPassword(utilisateurDetails.getPassword());
@@ -57,17 +57,17 @@ public class UtilisateurController {
         utilisateur.setActif(utilisateurDetails.isActif());
         utilisateur.setIdEtablissement(utilisateurDetails.getIdEtablissement());
 
-        Utilisateur updatedUtilisateur = URepository.save(utilisateur);
+        Utilisateur updatedUtilisateur = utilisateurRepository.save(utilisateur);
         return updatedUtilisateur;
     }
 
     // Delete
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUtilisateur(@PathVariable(value = "id") Long utilisateurId) {
-        Utilisateur utilisateur = URepository.findById(utilisateurId)
+        Utilisateur utilisateur = utilisateurRepository.findById(utilisateurId)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur", "id", utilisateurId));
 
-        URepository.delete(utilisateur);
+        utilisateurRepository.delete(utilisateur);
 
         return ResponseEntity.ok().build();
     }

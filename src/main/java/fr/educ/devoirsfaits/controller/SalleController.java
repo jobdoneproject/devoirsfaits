@@ -16,24 +16,24 @@ import java.util.List;
 public class SalleController {
 
     @Autowired
-    SalleRepository URepository;
+    SalleRepository salleRepository;
 
     // Get All
     @GetMapping("/all")
     public List<Salle> getAllSalle() {
-        return URepository.findAll();
+        return salleRepository.findAll();
     }
 
     // Create a new
     @PostMapping("/add")
     public Salle createSAlle(@Valid @RequestBody Salle salle) {
-        return URepository.save(salle);
+        return salleRepository.save(salle);
     }
 
     // Get a Single
     @GetMapping("/get/{id}")
     public Salle getSAlleById(@PathVariable(value = "id") long salleId) {
-        return URepository.findById(salleId)
+        return salleRepository.findById(salleId)
                 .orElseThrow(() -> new ResourceNotFoundException("Salle", "id", salleId));
     }
 
@@ -42,23 +42,23 @@ public class SalleController {
     public Salle updateSalle(@PathVariable(value = "id") Long salleId,
                                          @Valid @RequestBody Salle salleDetails) {
 
-        Salle salle = URepository.findById(salleId)
+        Salle salle = salleRepository.findById(salleId)
                 .orElseThrow(() -> new ResourceNotFoundException("Salle", "id", salleId));
 
         salle.setNom(salleDetails.getNom());
         salle.setIdEtablissement(salleDetails.getIdEtablissement());
 
-        Salle updatedSalle = URepository.save(salle);
+        Salle updatedSalle = salleRepository.save(salle);
         return updatedSalle;
     }
 
     // Delete
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteSalle(@PathVariable(value = "id") Long salleId) {
-        Salle salle = URepository.findById(salleId)
+        Salle salle = salleRepository.findById(salleId)
                 .orElseThrow(() -> new ResourceNotFoundException("Salle", "id", salleId));
 
-        URepository.delete(salle);
+        salleRepository.delete(salle);
 
         return ResponseEntity.ok().build();
     }
