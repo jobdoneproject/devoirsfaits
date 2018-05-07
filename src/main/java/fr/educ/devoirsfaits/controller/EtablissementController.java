@@ -2,7 +2,9 @@ package fr.educ.devoirsfaits.controller;
 
 import fr.educ.devoirsfaits.ResourceNotFoundException;
 import fr.educ.devoirsfaits.model.Etablissement;
+import fr.educ.devoirsfaits.model.Utilisateur;
 import fr.educ.devoirsfaits.repository.EtablissementRepository;
+import fr.educ.devoirsfaits.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,8 @@ public class EtablissementController {
     // Create a new
     @PostMapping("/add")
     public Etablissement createEtablissement(@Valid @RequestBody Etablissement etablissement) {
+        //Utilisateur administrateur = etablissement.getAdministrateur();
+        //administrateur.setEtablissement(etablissement);
         etablissement.setUrlEtablissement();
         return etablissementRepository.save(etablissement);
     }

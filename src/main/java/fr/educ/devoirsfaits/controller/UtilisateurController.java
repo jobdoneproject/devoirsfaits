@@ -3,7 +3,6 @@ package fr.educ.devoirsfaits.controller;
 import fr.educ.devoirsfaits.ResourceNotFoundException;
 import fr.educ.devoirsfaits.model.Utilisateur;
 import fr.educ.devoirsfaits.repository.UtilisateurRepository;
-import fr.educ.devoirsfaits.service.CryptWithMD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

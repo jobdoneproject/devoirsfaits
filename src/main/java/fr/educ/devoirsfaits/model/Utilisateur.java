@@ -21,14 +21,17 @@ public class Utilisateur implements Serializable {
 
     @Column(unique = true, nullable = false)
     String mail;
-    String telephone;
+
+    @Column(nullable = false)
     String password;
+    String telephone;
     String classe;
     boolean disponible;
     boolean professeur;
     boolean administrateur;
     boolean actif;
 
+    //@OneToOne(optional = false)
     @OneToOne
     private Etablissement etablissement ;
 
@@ -38,24 +41,29 @@ public class Utilisateur implements Serializable {
     @OneToMany(mappedBy="redacteur")
     private Collection<Message> messages ;
 
+    @ManyToMany
+    private Collection<Groupe> groupes ;
+
     @Transient
     @Inject
     private Crypter crypt;
 
 
-    public Utilisateur(String password, String nom, String prenom, String mail, boolean disponible, boolean professeur, boolean administrateur, String telephone, String classe, boolean actif, Etablissement etablissement) {
-
-        this.password = crypt.crypt(password);
+    public Utilisateur(String nom, String prenom, String mail, String telephone, String password, String classe, boolean disponible, boolean professeur, boolean administrateur, boolean actif, Etablissement etablissement, Collection<Message> suivi, Collection<Message> messages, Collection<Groupe> groupes) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
+        this.telephone = telephone;
+        this.password = crypt.crypt(password);
+        this.classe = classe;
         this.disponible = disponible;
         this.professeur = professeur;
         this.administrateur = administrateur;
-        this.telephone = telephone;
-        this.classe = classe;
         this.actif = actif;
         this.etablissement = etablissement;
+        this.suivi = suivi;
+        this.messages = messages;
+        this.groupes = groupes;
     }
 
     public Utilisateur() { }
@@ -156,4 +164,27 @@ public class Utilisateur implements Serializable {
         this.administrateur = administrateur;
     }
 
+    public Collection<Message> getSuivi() {
+        return suivi;
+    }
+
+    public void setSuivi(Collection<Message> suivi) {
+        this.suivi = suivi;
+    }
+
+    public Collection<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(Collection<Message> messages) {
+        this.messages = messages;
+    }
+
+    public Collection<Groupe> getGroupes() {
+        return groupes;
+    }
+
+    public void setGroupes(Collection<Groupe> groupes) {
+        this.groupes = groupes;
+    }
 }

@@ -1,12 +1,10 @@
 package fr.educ.devoirsfaits.service;
 
 
-import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-@ApplicationScoped
 public class Crypter {
 
     public Crypter() {
