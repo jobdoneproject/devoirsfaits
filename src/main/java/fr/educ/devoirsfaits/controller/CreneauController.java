@@ -47,7 +47,6 @@ public class CreneauController {
 
 
         creneau.setDateCreneau(creneauDetails.getDateCreneau());
-        creneau.setDuree(creneauDetails.getDuree());
         creneau.setHeureDebut(creneauDetails.getHeureDebut());
         creneau.setHeureFin(creneauDetails.getHeureFin());
 

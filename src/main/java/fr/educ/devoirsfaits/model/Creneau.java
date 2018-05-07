@@ -3,6 +3,9 @@ package fr.educ.devoirsfaits.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import java.sql.Time;
+import java.util.Date;
 
 @Entity
 public class Creneau {
@@ -10,68 +13,59 @@ public class Creneau {
     @Id
     @GeneratedValue
     long idCreneau;
-    String dateCreneau;
-    int duree;
-    String heureDebut;
-    String heureFin;
-    long idSalle;
+    Date dateCreneau;
+    Time heureDebut;
+    Time heureFin;
 
-    public Creneau(String dateCreneau, int duree, String heureDebut, String heureFin, long idSalle) {
+    @OneToOne
+    private Salle salle;
+
+    public Creneau(Date dateCreneau, Time heureDebut, Time heureFin, Salle salle) {
         this.dateCreneau = dateCreneau;
-        this.duree = duree;
         this.heureDebut = heureDebut;
         this.heureFin = heureFin;
-        this.idSalle = idSalle;
+        this.salle = salle;
     }
 
-    public Creneau() {
-    }
+    public Creneau() { }
 
     public long getIdCreneau() {
         return idCreneau;
     }
 
-    public void setIdCreneau(long idCreneau) {
+    /*public void setIdCreneau(long idCreneau) {
         this.idCreneau = idCreneau;
-    }
+    }*/
 
-    public String getDateCreneau() {
+    public Date getDateCreneau() {
         return dateCreneau;
     }
 
-    public void setDateCreneau(String dateCreneau) {
+    public void setDateCreneau(Date dateCreneau) {
         this.dateCreneau = dateCreneau;
     }
 
-    public int getDuree() {
-        return duree;
-    }
-
-    public void setDuree(int duree) {
-        this.duree = duree;
-    }
-
-    public String getHeureDebut() {
+    public Time getHeureDebut() {
         return heureDebut;
     }
 
-    public void setHeureDebut(String heureDebut) {
+    public void setHeureDebut(Time heureDebut) {
         this.heureDebut = heureDebut;
     }
 
-    public String getHeureFin() {
+    public Time getHeureFin() {
         return heureFin;
     }
 
-    public void setHeureFin(String heureFin) {
+    public void setHeureFin(Time heureFin) {
         this.heureFin = heureFin;
     }
 
-    public long getIdSalle() {
-        return idSalle;
+    public Salle getSalle() {
+        return salle;
     }
 
-    public void setIdSalle(long idSalle) {
-        this.idSalle = idSalle;
+    public void setSalle(Salle salle) {
+        this.salle = salle;
     }
 }

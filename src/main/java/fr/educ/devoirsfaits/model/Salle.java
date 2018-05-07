@@ -1,8 +1,6 @@
 package fr.educ.devoirsfaits.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Salle {
@@ -10,24 +8,26 @@ public class Salle {
     @Id
     @GeneratedValue
     long idSalle;
+
     String nom;
-    long idEtablissement;
 
-    public Salle(String nom, long idEtablissement) {
+    @OneToOne
+    private Etablissement etablissement ;
+
+    public Salle(String nom, Etablissement etablissement) {
         this.nom = nom;
-        this.idEtablissement = idEtablissement;
+        this.etablissement = etablissement;
     }
 
-    public Salle() {
-    }
+    public Salle() { }
 
     public long getIdSalle() {
         return idSalle;
     }
 
-    public void setIdSalle(long idSalle) {
+    /*public void setIdSalle(long idSalle) {
         this.idSalle = idSalle;
-    }
+    }*/
 
     public String getNom() {
         return nom;
@@ -37,11 +37,11 @@ public class Salle {
         this.nom = nom;
     }
 
-    public long getIdEtablissement() {
-        return idEtablissement;
+    public Etablissement getEtablissement() {
+        return etablissement;
     }
 
-    public void setIdEtablissement(long idEtablissement) {
-        this.idEtablissement = idEtablissement;
+    public void setEtablissement(Etablissement etablissement) {
+        this.etablissement = etablissement;
     }
 }

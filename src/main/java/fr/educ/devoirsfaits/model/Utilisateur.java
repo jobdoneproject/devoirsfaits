@@ -1,30 +1,44 @@
 package fr.educ.devoirsfaits.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.io.Serializable;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Collection;
+import java.security.MessageDigest;
 
 @Entity
-public class Utilisateur {
-
+public class Utilisateur implements Serializable {
     @Id
     @GeneratedValue
     long idUtilisateur;
     String password;
+
+    @Column(nullable = false)
     String nom;
+
+    @Column(nullable = false)
     String prenom;
+
+    @Column(nullable = false)
     String mail;
-    boolean disponible = false;
-    boolean professeur = false;
-    boolean administrateur = false;
+    boolean disponible;
+    boolean professeur;
+    boolean administrateur;
     String telephone;
     String classe;
-    boolean actif = false;
+    boolean actif;
 
-    long idEtablissement;
+    @OneToOne
+    private Etablissement etablissement ;
 
+    @OneToMany(mappedBy="eleve")
+    private Collection<Message> suivi ;
 
-    public Utilisateur(String password, String nom, String prenom, String mail, boolean disponible, boolean professeur, boolean administrateur, String telephone, String classe, boolean actif, long idEtablissement) {
+    @OneToMany(mappedBy="redacteur")
+    private Collection<Message> messages ;
+
+    public Utilisateur(String password, String nom, String prenom, String mail, boolean disponible, boolean professeur, boolean administrateur, String telephone, String classe, boolean actif, Etablissement etablissement) {
         this.password = password;
         this.nom = nom;
         this.prenom = prenom;
@@ -35,20 +49,18 @@ public class Utilisateur {
         this.telephone = telephone;
         this.classe = classe;
         this.actif = actif;
-        this.idEtablissement = idEtablissement;
+        this.etablissement = etablissement;
     }
 
-    public Utilisateur() {
-        }
-
+    public Utilisateur() { }
 
     public long getIdUtilisateur() {
         return idUtilisateur;
     }
 
-    public void setIdUtilisateur(long idUtilisateur) {
+    /*public void setIdUtilisateur(long idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
-    }
+    }*/
 
     public String getPassword() {
         return password;
@@ -122,12 +134,12 @@ public class Utilisateur {
         this.actif = actif;
     }
 
-    public long getIdEtablissement() {
-        return idEtablissement;
+    public Etablissement getEtablissement() {
+        return etablissement;
     }
 
-    public void setIdEtablissement(long idEtablissement) {
-            this.idEtablissement = idEtablissement;
+    public void setEtablissement(Etablissement etablissement) {
+            this.etablissement = etablissement;
         }
 
     public boolean isAdministrateur() {
@@ -137,4 +149,5 @@ public class Utilisateur {
     public void setAdministrateur(boolean administrateur) {
         this.administrateur = administrateur;
     }
+
 }

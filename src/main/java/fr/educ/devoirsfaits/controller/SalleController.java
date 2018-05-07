@@ -46,7 +46,6 @@ public class SalleController {
                 .orElseThrow(() -> new ResourceNotFoundException("Salle", "id", salleId));
 
         salle.setNom(salleDetails.getNom());
-        salle.setIdEtablissement(salleDetails.getIdEtablissement());
 
         Salle updatedSalle = salleRepository.save(salle);
         return updatedSalle;

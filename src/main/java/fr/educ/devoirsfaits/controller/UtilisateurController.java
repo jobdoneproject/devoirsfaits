@@ -3,6 +3,7 @@ package fr.educ.devoirsfaits.controller;
 import fr.educ.devoirsfaits.ResourceNotFoundException;
 import fr.educ.devoirsfaits.model.Utilisateur;
 import fr.educ.devoirsfaits.repository.UtilisateurRepository;
+import fr.educ.devoirsfaits.service.CryptWithMD5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +56,7 @@ public class UtilisateurController {
         utilisateur.setTelephone(utilisateurDetails.getTelephone());
         utilisateur.setClasse(utilisateurDetails.getClasse());
         utilisateur.setActif(utilisateurDetails.isActif());
-        utilisateur.setIdEtablissement(utilisateurDetails.getIdEtablissement());
+        utilisateur.setEtablissement(utilisateurDetails.getEtablissement());
 
         Utilisateur updatedUtilisateur = utilisateurRepository.save(utilisateur);
         return updatedUtilisateur;
@@ -71,4 +72,5 @@ public class UtilisateurController {
 
         return ResponseEntity.ok().build();
     }
+
 }
