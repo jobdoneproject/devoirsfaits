@@ -1,18 +1,17 @@
 package fr.educ.devoirsfaits.model;
 
+import fr.educ.devoirsfaits.service.Crypter;
+
+import javax.inject.Inject;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.Collection;
-import java.security.MessageDigest;
 
 @Entity
 public class Utilisateur implements Serializable {
     @Id
     @GeneratedValue
     long idUtilisateur;
-    String password;
 
     @Column(nullable = false)
     String nom;
@@ -20,13 +19,14 @@ public class Utilisateur implements Serializable {
     @Column(nullable = false)
     String prenom;
 
-    @Column(nullable = false)
+    @Column(unique = true, nullable = false)
     String mail;
+    String telephone;
+    String password;
+    String classe;
     boolean disponible;
     boolean professeur;
     boolean administrateur;
-    String telephone;
-    String classe;
     boolean actif;
 
     @OneToOne
@@ -38,8 +38,14 @@ public class Utilisateur implements Serializable {
     @OneToMany(mappedBy="redacteur")
     private Collection<Message> messages ;
 
+    @Transient
+    @Inject
+    private Crypter crypt;
+
+
     public Utilisateur(String password, String nom, String prenom, String mail, boolean disponible, boolean professeur, boolean administrateur, String telephone, String classe, boolean actif, Etablissement etablissement) {
-        this.password = password;
+
+        this.password = crypt.crypt(password);
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;
@@ -67,7 +73,7 @@ public class Utilisateur implements Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = crypt.crypt(password);
     }
 
     public String getNom() {
