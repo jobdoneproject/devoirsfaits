@@ -13,12 +13,10 @@ public class Message implements Serializable {
 
     private String contenu;
 
-    @OneToOne
     private Utilisateur eleve;
 
     private Date dateMessage;
 
-    @OneToOne
     private Utilisateur redacteur;
 
     public Message(String contenu, Utilisateur eleve, Date dateMessage, Utilisateur redacteur) {

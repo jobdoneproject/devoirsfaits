@@ -1,9 +1,6 @@
 package fr.educ.devoirsfaits.model;
 
-import org.hibernate.validator.constraints.UniqueElements;
-
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"villeEtablissement", "nomEtablissement"})})
@@ -22,20 +19,19 @@ public class Etablissement {
     @Column(nullable = false)
     private String villeEtablissement;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    private Utilisateur administrateur ;
+    private long idUtilisateur;
 
-    @OneToMany(mappedBy="idSalle")
-    private Collection<Salle> salles ;
+    //@OneToMany(mappedBy="idSalle")
+    //private Collection<Salle> salles ;
 
-    @OneToMany(mappedBy="idUtilisateur")
-    private Collection<Utilisateur> utilisateurs ;
+    //@OneToMany(mappedBy="idUtilisateur")
+    //private Collection<Utilisateur> utilisateurs ;
 
-    public Etablissement(String nomEtablissement, String villeEtablissement, Utilisateur administrateur) {
+    public Etablissement(String nomEtablissement, String villeEtablissement, long idAdministrateur) {
         this.nomEtablissement = nomEtablissement;
         this.urlEtablissement = "https://devoirsfaits.fr/" + this.villeEtablissement.replaceAll(" ","-") + "-" + this.nomEtablissement.replaceAll(" ","-");
         this.villeEtablissement = villeEtablissement;
-        this.administrateur = administrateur;
+        this.idUtilisateur = idAdministrateur;
     }
 
     public Etablissement() { }
@@ -72,11 +68,11 @@ public class Etablissement {
         this.villeEtablissement = villeEtablissement;
     }
 
-    public Utilisateur getAdministrateur() {
-        return administrateur;
+    public long getIdUtilisateur() {
+        return idUtilisateur;
     }
 
-    public void setAdministrateur(Utilisateur administrateur) {
-        this.administrateur = administrateur;
+    public void setIdUtilisateur(long idUtilisateur) {
+        this.idUtilisateur = idUtilisateur;
     }
 }

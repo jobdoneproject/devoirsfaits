@@ -5,73 +5,43 @@ import fr.educ.devoirsfaits.service.Crypter;
 import javax.inject.Inject;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Collection;
 
 @Entity
 public class Utilisateur implements Serializable {
+
     @Id
     @GeneratedValue
-    long idUtilisateur;
+    private long idUtilisateur;
 
     @Column(nullable = false)
-    String nom;
+    private String nom;
 
     @Column(nullable = false)
-    String prenom;
+    private String prenom;
 
     @Column(unique = true, nullable = false)
-    String mail;
+    private String mail;
 
     @Column(nullable = false)
-    String password;
-    String telephone;
-    String classe;
+    private String password;
+    private String telephone;
+    private String classe;
     boolean disponible;
-    boolean professeur;
-    boolean administrateur;
     boolean actif;
-
-    //@OneToOne(optional = false)
-    @OneToOne
-    private Etablissement etablissement ;
-
-    @OneToMany(mappedBy="eleve")
-    private Collection<Message> suivi ;
-
-    @OneToMany(mappedBy="redacteur")
-    private Collection<Message> messages ;
-
-    @ManyToMany
-    private Collection<Groupe> groupes ;
+    private boolean professeur;
+    private boolean administrateur;
+    private long idEtablissement ;
 
     @Transient
     @Inject
     private Crypter crypt;
 
-
-    public Utilisateur(String nom, String prenom, String mail, String telephone, String password, String classe, boolean disponible, boolean professeur, boolean administrateur, boolean actif, Etablissement etablissement, Collection<Message> suivi, Collection<Message> messages, Collection<Groupe> groupes) {
-        this.nom = nom;
-        this.prenom = prenom;
-        this.mail = mail;
-        this.telephone = telephone;
-        this.password = crypt.crypt(password);
-        this.classe = classe;
-        this.disponible = disponible;
-        this.professeur = professeur;
-        this.administrateur = administrateur;
-        this.actif = actif;
-        this.etablissement = etablissement;
-        this.suivi = suivi;
-        this.messages = messages;
-        this.groupes = groupes;
-    }
-
     public Utilisateur() { }
+
 
     public long getIdUtilisateur() {
         return idUtilisateur;
     }
-
     /*public void setIdUtilisateur(long idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
     }*/
@@ -116,28 +86,12 @@ public class Utilisateur implements Serializable {
         this.disponible = disponible;
     }
 
-    public boolean isProfesseur() {
-        return professeur;
-    }
-
-    public void setProfesseur(boolean professeur) {
-        this.professeur = professeur;
-    }
-
     public String getTelephone() {
         return telephone;
     }
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
-    }
-
-    public String getClasse() {
-        return classe;
-    }
-
-    public void setClasse(String classe) {
-        this.classe = classe;
     }
 
     public boolean isActif() {
@@ -148,13 +102,21 @@ public class Utilisateur implements Serializable {
         this.actif = actif;
     }
 
-    public Etablissement getEtablissement() {
-        return etablissement;
+    public long getIdEtablissement() {
+        return idEtablissement;
     }
 
-    public void setEtablissement(Etablissement etablissement) {
-            this.etablissement = etablissement;
+    public void setIdEtablissement(long idEtablissement) {
+            this.idEtablissement = idEtablissement;
         }
+
+    public boolean isProfesseur() {
+        return professeur;
+    }
+
+    public void setProfesseur(boolean professeur) {
+        this.professeur = professeur;
+    }
 
     public boolean isAdministrateur() {
         return administrateur;
@@ -164,27 +126,11 @@ public class Utilisateur implements Serializable {
         this.administrateur = administrateur;
     }
 
-    public Collection<Message> getSuivi() {
-        return suivi;
+    public String getClasse() {
+        return classe;
     }
 
-    public void setSuivi(Collection<Message> suivi) {
-        this.suivi = suivi;
-    }
-
-    public Collection<Message> getMessages() {
-        return messages;
-    }
-
-    public void setMessages(Collection<Message> messages) {
-        this.messages = messages;
-    }
-
-    public Collection<Groupe> getGroupes() {
-        return groupes;
-    }
-
-    public void setGroupes(Collection<Groupe> groupes) {
-        this.groupes = groupes;
+    public void setClasse(String classe) {
+        this.classe = classe;
     }
 }

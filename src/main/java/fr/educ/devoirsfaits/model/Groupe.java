@@ -13,12 +13,12 @@ public class Groupe {
     @Column(nullable = false)
     private String nom;
 
-    @ManyToMany(mappedBy="groupes")
-    private Collection<Utilisateur> utilisateurs ;
+    //@ManyToMany(mappedBy="groupes")
+    //private Collection<Utilisateur> utilisateurs ;
 
     public Groupe(String nom, Collection<Utilisateur> utilisateurs) {
         this.nom = nom;
-        this.utilisateurs = utilisateurs;
+ //       this.utilisateurs = utilisateurs;
     }
 
     public Groupe() {
@@ -40,11 +40,11 @@ public class Groupe {
         this.nom = nom;
     }
 
-    public Collection<Utilisateur> getUtilisateurs() {
+   /* public Collection<Utilisateur> getUtilisateurs() {
         return utilisateurs;
     }
 
     public void setUtilisateurs(Collection<Utilisateur> utilisateurs) {
         this.utilisateurs = utilisateurs;
-    }
+    }*/
 }

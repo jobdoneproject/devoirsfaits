@@ -13,4 +13,9 @@ public class DevoirsfaitsApplicationTests {
 	public void contextLoads() {
 	}
 
+	@Test
+	public void createUtilisateur(){
+
+	}
+
 }
