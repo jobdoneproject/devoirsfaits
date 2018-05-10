@@ -29,7 +29,7 @@ public class Etablissement {
 
     public Etablissement(String nomEtablissement, String villeEtablissement, long idAdministrateur) {
         this.nomEtablissement = nomEtablissement;
-        this.urlEtablissement = "https://devoirsfaits.fr/" + this.villeEtablissement.replaceAll(" ","-") + "-" + this.nomEtablissement.replaceAll(" ","-");
+        this.urlEtablissement = this.villeEtablissement.replaceAll(" ","-").toLowerCase() + "-" + this.nomEtablissement.replaceAll(" ","-").toLowerCase();
         this.villeEtablissement = villeEtablissement;
         this.idUtilisateur = idAdministrateur;
     }
@@ -57,7 +57,7 @@ public class Etablissement {
     }
 
     public void setUrlEtablissement() {
-        this.urlEtablissement = "https://devoirsfaits.fr/" + this.villeEtablissement.replaceAll(" ","-") + "-" + this.nomEtablissement.replaceAll(" ","-");
+        this.urlEtablissement =  this.villeEtablissement.replaceAll(" ","-").toLowerCase() + "-" + this.nomEtablissement.replaceAll(" ","-").toLowerCase();
     }
 
     public String getVilleEtablissement() {

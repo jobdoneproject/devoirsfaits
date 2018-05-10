@@ -1,0 +1,20 @@
+<dataset>
+    <eleve id="1"
+           nom="createdByUser"
+           prenom="Le Prenom"
+           mail="description"
+           disponible="true"
+           actif="true"
+           telephone="00 00 00 00 00"
+           classe="0"
+           id_etablissement="1"/>
+    <eleve id="2"
+           nom="createdByUser"
+           prenom="Le Prenom"
+           mail="mail@test.fr"
+           disponible="true"
+           actif="true"
+           telephone="00 00 00 00 00"
+           classe="0"
+           id_etablissement="1"/>
+</dataset>

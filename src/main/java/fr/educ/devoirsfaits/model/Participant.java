@@ -15,12 +15,12 @@ public class Participant {
     private boolean present;
 
     @OneToOne
-    private Utilisateur eleve;
+    private Eleve eleve;
 
     @OneToOne
     private Creneau creneau;
 
-    public Participant(boolean present, Utilisateur eleve, Creneau creneau) {
+    public Participant(boolean present, Eleve eleve, Creneau creneau) {
         this.present = present;
         this.eleve = eleve;
         this.creneau = creneau;
@@ -44,11 +44,11 @@ public class Participant {
         this.present = present;
     }
 
-    public Utilisateur getEleve() {
+    public Eleve getEleve() {
         return eleve;
     }
 
-    public void setEleve(Utilisateur eleve) {
+    public void setEleve(Eleve eleve) {
         this.eleve = eleve;
     }
 

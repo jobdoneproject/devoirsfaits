@@ -21,7 +21,8 @@ public class EtablissementController {
     // Get All
     @GetMapping("")
     public List<Etablissement> getAllEtablissement() {
-        return etablissementRepository.findAll();
+        List<Etablissement> etablissementList = etablissementRepository.findAll();
+        return etablissementList;
     }
 
     // Create a new

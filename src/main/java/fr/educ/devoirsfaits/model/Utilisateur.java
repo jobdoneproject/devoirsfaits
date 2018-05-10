@@ -6,12 +6,23 @@ import javax.inject.Inject;
 import javax.persistence.*;
 import java.io.Serializable;
 
+
 @Entity
-public class Utilisateur implements Serializable {
+@Table(name = "utilisateur")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(
+        name="role",
+        discriminatorType=DiscriminatorType.STRING
+)
+public abstract class Utilisateur implements Serializable {
 
     @Id
     @GeneratedValue
     private long idUtilisateur;
+
+    public long getIdUtilisateur() {
+        return idUtilisateur;
+    }
 
     @Column(nullable = false)
     private String nom;
@@ -25,11 +36,8 @@ public class Utilisateur implements Serializable {
     @Column(nullable = false)
     private String password;
     private String telephone;
-    private String classe;
     boolean disponible;
     boolean actif;
-    private boolean professeur;
-    private boolean administrateur;
     private long idEtablissement ;
 
     @Transient
@@ -39,9 +47,7 @@ public class Utilisateur implements Serializable {
     public Utilisateur() { }
 
 
-    public long getIdUtilisateur() {
-        return idUtilisateur;
-    }
+
     /*public void setIdUtilisateur(long idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
     }*/
@@ -110,27 +116,5 @@ public class Utilisateur implements Serializable {
             this.idEtablissement = idEtablissement;
         }
 
-    public boolean isProfesseur() {
-        return professeur;
-    }
 
-    public void setProfesseur(boolean professeur) {
-        this.professeur = professeur;
-    }
-
-    public boolean isAdministrateur() {
-        return administrateur;
-    }
-
-    public void setAdministrateur(boolean administrateur) {
-        this.administrateur = administrateur;
-    }
-
-    public String getClasse() {
-        return classe;
-    }
-
-    public void setClasse(String classe) {
-        this.classe = classe;
-    }
 }
