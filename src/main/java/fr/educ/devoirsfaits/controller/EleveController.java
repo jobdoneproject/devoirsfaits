@@ -1,6 +1,6 @@
 package fr.educ.devoirsfaits.controller;
 
-import fr.educ.devoirsfaits.ResourceNotFoundException;
+import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
 import fr.educ.devoirsfaits.model.Eleve;
 import fr.educ.devoirsfaits.repository.EleveRepository;
 import fr.educ.devoirsfaits.repository.EtablissementRepository;

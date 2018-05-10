@@ -1,4 +1,4 @@
-package fr.educ.devoirsfaits;
+package fr.educ.devoirsfaits.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,6 +1,12 @@
 package fr.educ.devoirsfaits.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table(name = "utilisateur")
@@ -18,5 +24,13 @@ public class Eleve extends Utilisateur {
 
     public void setClasse(String classe) {
         this.classe = classe;
+    }
+
+    @JsonIgnore
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("Eleve"));
+        return authorities;
     }
 }

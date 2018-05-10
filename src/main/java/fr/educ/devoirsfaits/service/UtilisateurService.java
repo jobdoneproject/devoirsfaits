@@ -1,15 +1,14 @@
 package fr.educ.devoirsfaits.service;
 
 import fr.educ.devoirsfaits.model.Utilisateur;
+import org.springframework.stereotype.Service;
 
 import javax.enterprise.inject.Produces;
 
+@Service
 public class UtilisateurService {
 
-    public UtilisateurService() {
-    }
 
-    private String variable;
 
     @Produces
     public Utilisateur updateUtilisateur(Utilisateur nouvelUtilisateur, Utilisateur nouvellesDonneesUtilisateur) {

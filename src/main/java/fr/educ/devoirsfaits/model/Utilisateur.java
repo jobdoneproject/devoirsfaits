@@ -1,6 +1,9 @@
 package fr.educ.devoirsfaits.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.educ.devoirsfaits.service.Crypter;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.inject.Inject;
 import javax.persistence.*;
@@ -14,7 +17,8 @@ import java.io.Serializable;
         name="role",
         discriminatorType=DiscriminatorType.STRING
 )
-public abstract class Utilisateur implements Serializable {
+@Scope("session")
+public abstract class Utilisateur implements Serializable, UserDetails {
 
     @Id
     @GeneratedValue
@@ -116,5 +120,41 @@ public abstract class Utilisateur implements Serializable {
             this.idEtablissement = idEtablissement;
         }
 
+    @JsonIgnore
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
+    @JsonIgnore
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @JsonIgnore
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+
+    @Override
+    public String getUsername() {
+        // TODO Auto-generated method stub
+        return nom;
+    }
+
+    @Transient
+    public String role;
+
+    public void setRole(String role){
+        this.role = role;
+    }
 }
