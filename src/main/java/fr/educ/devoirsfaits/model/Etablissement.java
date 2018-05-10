@@ -19,7 +19,6 @@ public class Etablissement {
     @Column(nullable = false)
     private String villeEtablissement;
 
-    private long idUtilisateur;
 
     //@OneToMany(mappedBy="idSalle")
     //private Collection<Salle> salles ;
@@ -27,11 +26,10 @@ public class Etablissement {
     //@OneToMany(mappedBy="idUtilisateur")
     //private Collection<Utilisateur> utilisateurs ;
 
-    public Etablissement(String nomEtablissement, String villeEtablissement, long idAdministrateur) {
+    public Etablissement(String nomEtablissement, String villeEtablissement) {
         this.nomEtablissement = nomEtablissement;
         this.urlEtablissement = this.villeEtablissement.replaceAll(" ","-").toLowerCase() + "-" + this.nomEtablissement.replaceAll(" ","-").toLowerCase();
         this.villeEtablissement = villeEtablissement;
-        this.idUtilisateur = idAdministrateur;
     }
 
     public Etablissement() { }
@@ -68,11 +66,4 @@ public class Etablissement {
         this.villeEtablissement = villeEtablissement;
     }
 
-    public long getIdUtilisateur() {
-        return idUtilisateur;
-    }
-
-    public void setIdUtilisateur(long idUtilisateur) {
-        this.idUtilisateur = idUtilisateur;
-    }
 }

@@ -2,6 +2,7 @@ package fr.educ.devoirsfaits.controller;
 
 import fr.educ.devoirsfaits.ResourceNotFoundException;
 import fr.educ.devoirsfaits.model.Etablissement;
+import fr.educ.devoirsfaits.repository.AdministrateurRepository;
 import fr.educ.devoirsfaits.repository.EtablissementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ public class EtablissementController {
     @Autowired
     EtablissementRepository etablissementRepository;
 
+    @Autowired
+    AdministrateurRepository administrateurRepository;
+
     // Get All
     @GetMapping("")
     public List<Etablissement> getAllEtablissement() {
@@ -25,13 +29,49 @@ public class EtablissementController {
         return etablissementList;
     }
 
+    /*
+    Lors de la creation de l'établissement, l'id de ce dernier et renvoyée pour permettre de créer son administrateur
+     */
+
     // Create a new
     @PostMapping("")
-    public Etablissement createEtablissement(@Valid @RequestBody Etablissement etablissement) {
+    public long createEtablissement(@Valid @RequestBody Etablissement etablissement) {
 
         etablissement.setUrlEtablissement();
-        return etablissementRepository.save(etablissement);
+        etablissementRepository.save(etablissement);
+
+        return etablissement.getIdEtablissement();
     }
+
+
+    // Create a new etablissement plus administrateur
+    /*@PostMapping("")
+    public String createEtablissement(@Valid @RequestBody Object[] object) {
+        String message = "";
+        Etablissement etablissement = (Etablissement) object[0];
+        Administrateur administrateur = (Administrateur) object[1];
+        try {
+            etablissement.setUrlEtablissement();
+            etablissementRepository.save(etablissement);
+            message += "Etablissement inscrit";
+
+            try {
+                long idEtablissement = etablissement.getIdEtablissement();
+                administrateur.setIdEtablissement(idEtablissement);
+                administrateurRepository.save(administrateur);
+                message += " Administrateur inscrit";
+            } catch(DataIntegrityViolationException e){
+                message = e.getMessage();
+            }
+        } catch (DataIntegrityViolationException e) {
+            message = e.getMessage();
+        }
+
+        return message;
+    }*/
+
+
+
 
 
     // Get a Single
@@ -53,7 +93,6 @@ public class EtablissementController {
         etablissement.setNomEtablissement(etablissementDetails.getNomEtablissement());
         etablissement.setVilleEtablissement(etablissementDetails.getVilleEtablissement());
         etablissement.setUrlEtablissement();
-        etablissement.setIdUtilisateur(etablissementDetails.getIdUtilisateur());
 
         Etablissement updatedEtablissement = etablissementRepository.save(etablissement);
         return updatedEtablissement;

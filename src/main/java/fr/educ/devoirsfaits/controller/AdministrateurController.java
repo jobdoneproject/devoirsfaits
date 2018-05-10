@@ -7,6 +7,7 @@ import fr.educ.devoirsfaits.repository.AdministrateurRepository;
 import fr.educ.devoirsfaits.repository.EtablissementRepository;
 import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,14 +59,19 @@ public class AdministrateurController {
                 .orElseThrow(() -> new ResourceNotFoundException("Administrateur", "id", administrateurId));
     }
 
+
+    /*
+    Pour creer un nouvel administrateur, il faut en premier creer l'etablissement qui renvoie son idEtablissement
+     */
     // Create a new
     @PostMapping("")
     public String createAdministrateur(@Valid @RequestBody Administrateur administrateur) {
+
         String message;
         try {
             administrateurRepository.save(administrateur);
             message = "entrée validée";
-        } catch(org.springframework.dao.DataIntegrityViolationException e){
+        } catch(DataIntegrityViolationException e){
             message = e.getMessage();
         }
         return message;
