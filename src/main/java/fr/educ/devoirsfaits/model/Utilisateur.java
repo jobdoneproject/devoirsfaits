@@ -51,6 +51,8 @@ public abstract class Utilisateur implements Serializable, UserDetails {
     @Column(name="role", insertable = false, updatable = false)
     protected String privilege;
 
+
+
     public Utilisateur() { }
 
 

@@ -49,6 +49,7 @@ public class UtilisateurService implements UserDetailsService {
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur", "id", idUtilisateur));
     }
 
+
     @Override
     public UserDetails loadUserByUsername(String nom) throws UsernameNotFoundException {
         Utilisateur user = find(nom);

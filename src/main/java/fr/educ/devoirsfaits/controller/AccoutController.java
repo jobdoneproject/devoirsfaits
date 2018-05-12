@@ -56,14 +56,13 @@ public class AccoutController {
 
         etablissementRepository.save(etablissement);
 
-
         Administrateur administrateur = new Administrateur();
         administrateur.setNom(model.getNom());
         administrateur.setPrenom(model.getPrenom());
         administrateur.setMail(model.getMail());
         administrateur.setPassword(model.getPassword());
         administrateur.setIdEtablissement(etablissement.getIdEtablissement());
-        //administrateurRepository.save(administrateur);
+
         if (utilisateurService.find(administrateur.getMail()) != null) {
             logger.error("username Already exist " + administrateur.getMail());
             return new ResponseEntity(

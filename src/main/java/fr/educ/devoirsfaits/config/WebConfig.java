@@ -10,7 +10,8 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
+import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -23,12 +24,17 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UtilisateurService utilisateurService;
 
+
+
     // This method is for overriding the default AuthenticationManagerBuilder.
     // We can specify how the user details are kept in the application. It may
     // be in a database, LDAP or in memory.
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(utilisateurService);
+
+        DigestAuthenticationFilter filter = new DigestAuthenticationFilter();
+        filter.setPasswordAlreadyEncoded(true);
     }
 
     // this configuration allow the client app to access the this api
@@ -55,6 +61,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     // We can specify our authorization criteria inside this method.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+
+
         http.cors().and()
                 // starts authorizing configurations
                 .authorizeRequests()
@@ -78,7 +86,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
     @SuppressWarnings("deprecation")
     @Bean
-    public static NoOpPasswordEncoder passwordEncoder() {
-        return (NoOpPasswordEncoder) NoOpPasswordEncoder.getInstance();
+    public static MessageDigestPasswordEncoder passwordEncoder() {
+        return new MessageDigestPasswordEncoder("MD5");
     }
+
 }
