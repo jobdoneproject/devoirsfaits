@@ -148,10 +148,10 @@ public abstract class Utilisateur implements Serializable, UserDetails {
     }
 
 
-    @Override
+    @Override // retourne le mail au lieu du nom pour identification !
     public String getUsername() {
         // TODO Auto-generated method stub
-        return nom;
+        return mail;
     }
 
     public String getPrivilege() {

@@ -7,7 +7,7 @@ import java.util.Collection;
 public class Groupe {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long idGroupe;
 
     @Column(nullable = false)

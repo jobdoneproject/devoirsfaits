@@ -74,6 +74,8 @@ public class AdministrateurController {
         return message;
     }
 
+
+
     // Update
     @PutMapping("{id}")
     public Administrateur updateAdministrateur(@PathVariable(value = "id") Long administrateurId,

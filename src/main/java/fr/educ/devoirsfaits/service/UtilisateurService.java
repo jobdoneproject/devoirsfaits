@@ -40,8 +40,8 @@ public class UtilisateurService implements UserDetailsService {
         return utilisateurRepository.save(utilisateur);
     }
 
-    public Utilisateur find(String nom) {
-        return utilisateurRepository.findOneByNom(nom);
+    public Utilisateur find(String mail) {
+        return utilisateurRepository.findOneByMail(mail);
     }
 
     public Utilisateur find(Long idUtilisateur) {
@@ -50,8 +50,8 @@ public class UtilisateurService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String mail) throws UsernameNotFoundException {
-        Utilisateur user = find(mail);
+    public UserDetails loadUserByUsername(String nom) throws UsernameNotFoundException {
+        Utilisateur user = find(nom);
         return  user;
     }
 }

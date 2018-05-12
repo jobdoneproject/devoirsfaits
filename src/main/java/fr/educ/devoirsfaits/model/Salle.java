@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class Salle {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     long idSalle;
 
     String nom;

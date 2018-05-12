@@ -8,7 +8,7 @@ import java.util.Date;
 public class Message implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long idMessage;
 
     private String contenu;
