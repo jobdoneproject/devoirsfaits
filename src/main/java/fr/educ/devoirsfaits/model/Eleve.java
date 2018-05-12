@@ -16,7 +16,6 @@ public class Eleve extends Utilisateur {
     private String classe;
 
     public Eleve() {
-        super();
     }
     public String getClasse() {
         return classe;

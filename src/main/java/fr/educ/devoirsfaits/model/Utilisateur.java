@@ -21,7 +21,7 @@ import java.io.Serializable;
 public abstract class Utilisateur implements Serializable, UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long idUtilisateur;
 
     public long getIdUtilisateur() {
@@ -47,6 +47,9 @@ public abstract class Utilisateur implements Serializable, UserDetails {
     @Transient
     @Inject
     private Crypter crypt;
+
+    @Column(name="role", insertable = false, updatable = false)
+    protected String privilege;
 
     public Utilisateur() { }
 
@@ -151,10 +154,7 @@ public abstract class Utilisateur implements Serializable, UserDetails {
         return nom;
     }
 
-    @Transient
-    public String role;
-
-    public void setRole(String role){
-        this.role = role;
+    public String getPrivilege() {
+        return privilege;
     }
 }
