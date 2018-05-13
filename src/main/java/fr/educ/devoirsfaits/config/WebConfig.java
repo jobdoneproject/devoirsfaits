@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
-import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -31,10 +30,13 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     // be in a database, LDAP or in memory.
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(utilisateurService);
+        /*auth.userDetailsService(utilisateurService);
 
         DigestAuthenticationFilter filter = new DigestAuthenticationFilter();
         filter.setPasswordAlreadyEncoded(true);
+*/
+        auth.userDetailsService(utilisateurService).passwordEncoder(this.passwordEncoder());
+
     }
 
     // this configuration allow the client app to access the this api
@@ -60,16 +62,16 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     // This method is used for override HttpSecurity of the web Application.
     // We can specify our authorization criteria inside this method.
     @Override
-    protected void configure(HttpSecurity http) throws Exception {
+    protected void configure(HttpSecurity https) throws Exception {
 
 
-        http.cors().and()
+        https.cors().and()
                 // starts authorizing configurations
                 .authorizeRequests()
                 // ignoring the guest's urls "
                 .antMatchers("/account/register","/account/login","/logout").permitAll()
                 // authenticate all remaining URLS
-                .anyRequest().fullyAuthenticated().and()
+                .antMatchers("/eleve/*","/account/login","/logout").authenticated().and()
                 /* "/logout" will log the user out by invalidating the HTTP Session,
                  * cleaning up any {link rememberMe()} authentication that was configured, */
                 .logout()
@@ -82,6 +84,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
                 // disabling the CSRF - Cross Site Request Forgery
                 .csrf().disable();
+
     }
 
     @SuppressWarnings("deprecation")
