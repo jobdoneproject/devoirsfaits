@@ -18,8 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/professeur")
-@CrossOrigin(origins = {"http://localhost:8585", "http://localhost:8787"}, maxAge = 4800, allowCredentials = "false")
-
 public class ProfesseurController {
 
     @Autowired
