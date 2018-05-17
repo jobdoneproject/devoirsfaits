@@ -1,5 +1,6 @@
 package fr.educ.devoirsfaits.config;
 
+import fr.educ.devoirsfaits.controller.CorsFilter;
 import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -41,7 +42,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-    @Bean
+/*    @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("*"));
@@ -49,7 +50,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }
+    }*/
 
     // this configuration allow the client app to access the this api
     // all the domain that consume this api must be included in the allowed o'rings
@@ -97,6 +98,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
                 // disabling the CSRF - Cross Site Request Forgery
                 .csrf().disable();
+            https.addFilter(new CorsFilter());
 
     }
 
