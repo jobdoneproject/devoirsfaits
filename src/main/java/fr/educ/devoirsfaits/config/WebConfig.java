@@ -12,9 +12,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import java.util.Arrays;
 
 @Configurable
 @EnableWebSecurity
@@ -47,7 +52,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**").allowedOrigins("http://localhost:4200")
-                .allowedOrigins("http://206.189.126.80");
+                .allowedOrigins("http://206.189.126.80").allowedOrigins("http://206.189.126.80:8080");
 
             }
         };
@@ -87,6 +92,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable();
 
     }
+
+
 
     @SuppressWarnings("deprecation")
     @Bean
