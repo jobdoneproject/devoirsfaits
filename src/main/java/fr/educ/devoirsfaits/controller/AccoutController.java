@@ -19,7 +19,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("account")
-@CrossOrigin(origins = {"http://localhost:8585", "http://localhost:8787"}, maxAge = 4800, allowCredentials = "false")
+@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
 public class AccoutController {
 
     public static final Logger logger = LoggerFactory.getLogger(AccoutController.class);
