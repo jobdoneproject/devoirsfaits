@@ -54,10 +54,10 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     // This method is for overriding some configuration of the WebSecurity
     // If you want to ignore some request or request patterns then you can
     // specify that inside this method
-    @Override
+    /*@Override
     public void configure(WebSecurity web) throws Exception {
         super.configure(web);
-    }
+    }*/
 
     // This method is used for override HttpSecurity of the web Application.
     // We can specify our authorization criteria inside this method.
@@ -71,7 +71,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 // ignoring the guest's urls "
                 .antMatchers("/account/register","/account/login","/logout").permitAll()
                 // authenticate all remaining URLS
-                .antMatchers("/eleve/*","/account/login","/logout").authenticated().and()
+                .antMatchers("/*").authenticated().and()
                 /* "/logout" will log the user out by invalidating the HTTP Session,
                  * cleaning up any {link rememberMe()} authentication that was configured, */
                 .logout()

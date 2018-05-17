@@ -19,24 +19,12 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("account")
+@CrossOrigin(origins = {"http://localhost:8585", "http://localhost:8787"}, maxAge = 4800, allowCredentials = "false")
 public class AccoutController {
 
     public static final Logger logger = LoggerFactory.getLogger(AccoutController.class);
 
-    /*
-    @CrossOrigin
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody Administrateur newAdministrateur) {
-        if (administrateurService.find(newAdministrateur.getUsername()) != null) {
-            logger.error("username Already exist " + newAdministrateur.getUsername());
-            return new ResponseEntity(
-                    new CustomErrorType("user with username " + newAdministrateur.getUsername() + "already exist "),
-                    HttpStatus.CONFLICT);
-        }
-        //newAdministrateur.setRole("administrateur");
 
-        return new ResponseEntity<Administrateur>(administrateurService.save(newAdministrateur), HttpStatus.CREATED);
-    }*/
     @Autowired
     AdministrateurRepository administrateurRepository;
 
@@ -72,17 +60,6 @@ public class AccoutController {
 
         return new ResponseEntity<Administrateur>(administrateurRepository.save(administrateur), HttpStatus.CREATED);
     }
-    /*public ResponseEntity<?> createUser(@RequestBody User newUser) {
-        if (userService.find(newUser.getUsername()) != null) {
-            logger.error("username Already exist " + newUser.getUsername());
-            return new ResponseEntity(
-                    new CustomErrorType("user with username " + newUser.getUsername() + "already exist "),
-                    HttpStatus.CONFLICT);
-        }
-        newUser.setRole("USER");
-
-        return new ResponseEntity<User>(userService.save(newUser), HttpStatus.CREATED);
-    }*/
 
 
     // this is the login api/service
