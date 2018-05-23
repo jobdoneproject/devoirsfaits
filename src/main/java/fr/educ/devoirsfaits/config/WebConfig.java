@@ -1,10 +1,15 @@
 package fr.educ.devoirsfaits.config;
 
+import fr.educ.devoirsfaits.security.JWTAuthenticationFilter;
+import fr.educ.devoirsfaits.security.JWTAuthorizationFilter;
 import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,17 +17,28 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@Configurable
+@Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled=true)
 public class WebConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    UtilisateurService utilisateurService;
+    private UtilisateurService utilisateurService;
+    private MessageDigestPasswordEncoder messageDigestPasswordEncoder;
+    @Autowired
+    private WebConfig webConfig;
 
+    public WebConfig (UtilisateurService utilisateurService, MessageDigestPasswordEncoder messageDigestPasswordEncoder) {
+        this.utilisateurService = utilisateurService;
+        this.messageDigestPasswordEncoder = messageDigestPasswordEncoder;
+    }
 
 
     // This method is for overriding the default AuthenticationManagerBuilder.
@@ -62,19 +78,30 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     // This method is used for override HttpSecurity of the web Application.
     // We can specify our authorization criteria inside this method.
     @Override
-    protected void configure(HttpSecurity https) throws Exception {
+    protected void configure(HttpSecurity http) throws Exception {
+
+//        http.cors().and().csrf().disable().authorizeRequests()
+//                .antMatchers(HttpMethod.POST, "/account/login", "/account/register").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
+//                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+//                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+//                // this disables session creation on Spring Security
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
 
-        https.cors().and()
+        http.cors().and()
                 // starts authorizing configurations
                 .authorizeRequests()
                 // ignoring the guest's urls "
                 .antMatchers("/account/register","/account/login","/logout").permitAll()
                 // authenticate all remaining URLS
-                .antMatchers("/eleve/*","/account/login","/logout").authenticated().and()
+                //.antMatchers("/eleve/*").authenticated().and()
+                //.addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                //.addFilter(new JWTAuthorizationFilter(authenticationManager()))
                 /* "/logout" will log the user out by invalidating the HTTP Session,
                  * cleaning up any {link rememberMe()} authentication that was configured, */
-                .logout()
+                .and().logout()
                 .permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
                 .and()
@@ -87,10 +114,20 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+
+    //Permet les requetes depuis toutes les sources
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        return source;
+    }
+
     @SuppressWarnings("deprecation")
     @Bean
     public static MessageDigestPasswordEncoder passwordEncoder() {
         return new MessageDigestPasswordEncoder("MD5");
     }
+
 
 }

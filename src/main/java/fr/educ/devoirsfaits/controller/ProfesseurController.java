@@ -50,9 +50,7 @@ public class ProfesseurController {
     public List<Professeur> getAllProfesseurByEtablissement(@PathVariable(value = "id") long etablissementId) {
         Etablissement etablissement = etablissementRepository.findById(etablissementId)
                 .orElseThrow(() -> new ResourceNotFoundException("Etablissement", "id", etablissementId));
-
         List<Professeur> listeProfesseur = professeurRepository.findAll();
-
         for (Iterator<Professeur> it = listeProfesseur.iterator(); it.hasNext();){
             Professeur professeur = it.next();
             if (professeur.getIdEtablissement() != etablissement.getIdEtablissement()){
@@ -81,9 +79,7 @@ public class ProfesseurController {
 
         Professeur professeur = professeurRepository.findById(professeurId)
                 .orElseThrow(() -> new ResourceNotFoundException("Professeur", "id", professeurId));
-
         professeur = (Professeur) utilisateurService.updateUtilisateur( professeur, nouvellesDonneesProfesseur);
-
         Professeur updatedProfesseur = professeurRepository.save(professeur);
         return updatedProfesseur;
     }
@@ -93,9 +89,7 @@ public class ProfesseurController {
     public ResponseEntity<?> deleteProfesseur(@PathVariable(value = "id") Long professeurId) {
         Professeur professeur = professeurRepository.findById(professeurId)
                 .orElseThrow(() -> new ResourceNotFoundException("Professeur", "id", professeurId));
-
         professeurRepository.delete(professeur);
-
         return ResponseEntity.ok().build();
     }
 }

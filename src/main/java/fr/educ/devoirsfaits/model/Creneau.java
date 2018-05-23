@@ -30,10 +30,6 @@ public class Creneau {
         return idCreneau;
     }
 
-    /*public void setIdCreneau(long idCreneau) {
-        this.idCreneau = idCreneau;
-    }*/
-
     public Date getDateCreneau() {
         return dateCreneau;
     }

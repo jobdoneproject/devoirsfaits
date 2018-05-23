@@ -15,8 +15,10 @@ import java.util.Collection;
 @PrimaryKeyJoinColumn(name = "id")
 public class Administrateur extends Utilisateur {
 
-    public Administrateur() {
-    }
+    //constructeur no param
+    public Administrateur() {}
+
+
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

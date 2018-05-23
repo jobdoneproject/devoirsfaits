@@ -3,11 +3,13 @@ package fr.educ.devoirsfaits.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import fr.educ.devoirsfaits.service.Crypter;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.inject.Inject;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Collection;
 
 
 @Entity
@@ -18,15 +20,12 @@ import java.io.Serializable;
         discriminatorType=DiscriminatorType.STRING
 )
 @Scope("session")
-public abstract class Utilisateur implements Serializable, UserDetails {
+public class Utilisateur implements Serializable, UserDetails {
 
+    /**/
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long idUtilisateur;
-
-    public long getIdUtilisateur() {
-        return idUtilisateur;
-    }
 
     @Column(nullable = false)
     private String nom;
@@ -34,32 +33,37 @@ public abstract class Utilisateur implements Serializable, UserDetails {
     @Column(nullable = false)
     private String prenom;
 
-    @Column(unique = true, nullable = false)
+    @Column(name="mail", unique = true, nullable = false)
     private String mail;
 
     @Column(nullable = false)
     private String password;
+
     private String telephone;
+
     boolean disponible;
+
     boolean actif;
+
     private long idEtablissement ;
 
-    @Transient
-    @Inject
+    @Inject @Transient
     private Crypter crypt;
 
     @Column(name="role", insertable = false, updatable = false)
     protected String privilege;
-
-
+    /**/
 
     public Utilisateur() { }
 
+    public long getIdUtilisateur() {
+        return idUtilisateur;
+    }
 
-
-    /*public void setIdUtilisateur(long idUtilisateur) {
-        this.idUtilisateur = idUtilisateur;
-    }*/
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
 
     public String getPassword() {
         return password;
@@ -123,7 +127,7 @@ public abstract class Utilisateur implements Serializable, UserDetails {
 
     public void setIdEtablissement(long idEtablissement) {
             this.idEtablissement = idEtablissement;
-        }
+    }
 
     @JsonIgnore
     @Override

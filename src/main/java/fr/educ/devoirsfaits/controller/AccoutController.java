@@ -23,20 +23,6 @@ public class AccoutController {
 
     public static final Logger logger = LoggerFactory.getLogger(AccoutController.class);
 
-    /*
-    @CrossOrigin
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public ResponseEntity<?> createUser(@RequestBody Administrateur newAdministrateur) {
-        if (administrateurService.find(newAdministrateur.getUsername()) != null) {
-            logger.error("username Already exist " + newAdministrateur.getUsername());
-            return new ResponseEntity(
-                    new CustomErrorType("user with username " + newAdministrateur.getUsername() + "already exist "),
-                    HttpStatus.CONFLICT);
-        }
-        //newAdministrateur.setRole("administrateur");
-
-        return new ResponseEntity<Administrateur>(administrateurService.save(newAdministrateur), HttpStatus.CREATED);
-    }*/
     @Autowired
     AdministrateurRepository administrateurRepository;
 
@@ -49,13 +35,16 @@ public class AccoutController {
     @PostMapping("/register")
     public ResponseEntity<?> createAdministrateur( @Valid @RequestBody RequetFormulaireAdmin model) {
 
+        //Création de l'établissement en priorité, l'admin dépendant de ce dernier
         Etablissement etablissement = new Etablissement();
         etablissement.setNomEtablissement(model.getEtablissement());
         etablissement.setVilleEtablissement(model.getVille());
         etablissement.setUrlEtablissement();
 
+        //Ajout de l'établissement en BDD
         etablissementRepository.save(etablissement);
 
+        //Création de  l'administrateur
         Administrateur administrateur = new Administrateur();
         administrateur.setNom(model.getNom());
         administrateur.setPrenom(model.getPrenom());
@@ -63,35 +52,24 @@ public class AccoutController {
         administrateur.setPassword(model.getPassword());
         administrateur.setIdEtablissement(etablissement.getIdEtablissement());
 
-        if (utilisateurService.find(administrateur.getMail()) != null) {
-            logger.error("username Already exist " + administrateur.getMail());
+        if (utilisateurService.find(administrateur.getUsername()) != null) {
+            logger.error("username Already exist " + administrateur.getUsername());
             return new ResponseEntity(
-                    new CustomErrorType("user with mail " + administrateur.getMail() + "already exist "),
+                    new CustomErrorType("user with mail " + administrateur.getUsername() + "already exist "),
                     HttpStatus.CONFLICT);
         }
 
         return new ResponseEntity<Administrateur>(administrateurRepository.save(administrateur), HttpStatus.CREATED);
     }
-    /*public ResponseEntity<?> createUser(@RequestBody User newUser) {
-        if (userService.find(newUser.getUsername()) != null) {
-            logger.error("username Already exist " + newUser.getUsername());
-            return new ResponseEntity(
-                    new CustomErrorType("user with username " + newUser.getUsername() + "already exist "),
-                    HttpStatus.CONFLICT);
-        }
-        newUser.setRole("USER");
 
-        return new ResponseEntity<User>(userService.save(newUser), HttpStatus.CREATED);
-    }*/
-
-
-    // this is the login api/service
+     //this is the login api/service
     @CrossOrigin
     @RequestMapping("/login")
     public Principal user(Principal principal) {
         logger.info("user logged "+principal);
         return principal;
     }
+
 
 
 }

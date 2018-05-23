@@ -15,8 +15,8 @@ public class Eleve extends Utilisateur {
 
     private String classe;
 
-    public Eleve() {
-    }
+    public Eleve() {}
+
     public String getClasse() {
         return classe;
     }
