@@ -19,7 +19,7 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("account")
-@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
+@CrossOrigin(origins = "*", maxAge = 4800)
 public class AccoutController {
 
     public static final Logger logger = LoggerFactory.getLogger(AccoutController.class);
@@ -63,7 +63,6 @@ public class AccoutController {
 
 
     // this is the login api/service
-    @CrossOrigin
     @RequestMapping("/login")
     public Principal user(Principal principal) {
         logger.info("user logged "+principal);
