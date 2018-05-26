@@ -1,5 +1,6 @@
 package fr.educ.devoirsfaits.config;
 
+import fr.educ.devoirsfaits.controller.CorsFilter;
 import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
@@ -59,8 +60,6 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     // We can specify our authorization criteria inside this method.
     @Override
     protected void configure(HttpSecurity https) throws Exception {
-
-
         https.cors().and()
                 // starts authorizing configurations
                 .authorizeRequests()
@@ -81,6 +80,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
                 // disabling the CSRF - Cross Site Request Forgery
                 .csrf().disable();
+
 
     }
 

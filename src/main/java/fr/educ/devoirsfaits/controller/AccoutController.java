@@ -19,8 +19,10 @@ import java.security.Principal;
 
 @RestController
 @RequestMapping("account")
+/*
 @CrossOrigin(allowedHeaders = "*",
         methods={RequestMethod.GET, RequestMethod.DELETE, RequestMethod.POST, RequestMethod.HEAD, RequestMethod.OPTIONS, RequestMethod.PUT}, maxAge = 4800, allowCredentials = "true")
+*/
 public class AccoutController {
 
     public static final Logger logger = LoggerFactory.getLogger(AccoutController.class);
