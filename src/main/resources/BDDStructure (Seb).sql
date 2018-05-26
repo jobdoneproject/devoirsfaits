@@ -27,8 +27,10 @@ DROP TABLE IF EXISTS `creneau`;
 
 CREATE TABLE `creneau` (
   `id_creneau` int(11) NOT NULL AUTO_INCREMENT,
-  `date_debut` int(11) DEFAULT NULL,
-  `date_fin` int(11) DEFAULT NULL,
+  `date_creneau` date DEFAULT NULL,
+  `duree` int(11) DEFAULT NULL,
+  `heure_debut` time DEFAULT NULL,
+  `heure_fin` time DEFAULT NULL,
   `id_salle` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_creneau`),
   KEY `FK_Creneau_id_salle` (`id_salle`),
