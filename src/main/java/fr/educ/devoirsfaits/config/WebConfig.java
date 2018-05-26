@@ -41,7 +41,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
     // this configuration allow the client app to access the this api
     // all the domain that consume this api must be included in the allowed o'rings
-    @Bean
+/*    @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurerAdapter() {
             @Override
@@ -51,14 +51,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
 
             }
         };
-    }
-    // This method is for overriding some configuration of the WebSecurity
-    // If you want to ignore some request or request patterns then you can
-    // specify that inside this method
-    /*@Override
-    public void configure(WebSecurity web) throws Exception {
-        super.configure(web);
     }*/
+
 
     // This method is used for override HttpSecurity of the web Application.
     // We can specify our authorization criteria inside this method.
