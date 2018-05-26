@@ -4,6 +4,7 @@ import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -63,6 +64,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         https.cors().and()
                 // starts authorizing configurations
                 .authorizeRequests()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // ignoring the guest's urls "
                 .antMatchers("/account/register","/account/login","/logout").permitAll()
                 // authenticate all remaining URLS
