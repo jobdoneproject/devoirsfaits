@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Array;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -140,33 +141,52 @@ public class EtablissementController {
             @RequestParam(value="year", required=true) int year,
             @RequestParam(value="week", required=true) int week
     ) {
-        // Conversion semaine en timestamp en secondes
 
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
+        // Création date selon semaine appelée
+        long[] weekBeginEndTimestamps = getWeekTimestampsFromYearAndId(year, week);
+
+
+
+
+
+//        https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-creating-database-queries-with-the-query-annotation/
+//        https://stackoverflow.com/questions/41152938/java-spring-return-json-object-array#41153043
+//        https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
+
+
+//        List<Creneau> creneauList = creneauRepository.findAll();
+        List<Creneau> creneauList = null;
+        return creneauList;
+    }
+
+
+
+    private long[] getWeekTimestampsFromYearAndId(int year, int week){
+        // Création date selon semaine appelée
         Calendar cal = Calendar.getInstance();
-        cal.set(Calendar.WEEK_OF_YEAR, 25);
+        cal.set(Calendar.YEAR, year);
+        cal.set(Calendar.WEEK_OF_YEAR, week);
         cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         cal.set(Calendar.HOUR_OF_DAY, 0);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+
+        // Confirm Date créée
+         SimpleDateFormat sdf = new SimpleDateFormat("yyyy MMM dd HH:mm:ss");
+         System.out.println(sdf.format(cal.getTime()));
+
+        // Création timestamps en secondes
         long timestampInMilliseconds = cal.getTimeInMillis();
         String timeStampStringInMilliseconds = String.valueOf(timestampInMilliseconds);
         String timeStampStringInSeconds = timeStampStringInMilliseconds.substring(0, timeStampStringInMilliseconds.length() - 3);
         long timestampInSeconds = Long.parseLong(timeStampStringInSeconds);
 
-        long sevenDays = 7 * 24 * 60 * 60;
+        long sevenDaysInSeconds = 7 * 24 * 60 * 60;
         long semaineDebut = timestampInSeconds;
-        long semaineFin = semaineDebut + sevenDays;
+        long semaineFin = semaineDebut + sevenDaysInSeconds;
 
-
-
-
-        // https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-creating-database-queries-with-the-query-annotation/
-
-//        https://stackoverflow.com/questions/41152938/java-spring-return-json-object-array#41153043
-
-
-
-        List<Creneau> creneauList = creneauRepository.findAll();
-        return creneauList;
+        long[] weekBeginEndTimestamps = {semaineDebut, semaineFin};
+        return weekBeginEndTimestamps;
     }
 
     // ! Créneau ----------------------------------------------------------------
