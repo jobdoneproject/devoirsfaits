@@ -1,5 +1,7 @@
 package fr.educ.devoirsfaits.controller;
 
+import fr.educ.devoirsfaits.model.Creneau;
+import fr.educ.devoirsfaits.repository.CreneauRepository;
 import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
 import fr.educ.devoirsfaits.model.Etablissement;
 import fr.educ.devoirsfaits.repository.AdministrateurRepository;
@@ -9,7 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/etablissement")
@@ -22,6 +31,13 @@ public class EtablissementController {
 
     @Autowired
     AdministrateurRepository administrateurRepository;
+
+    @Autowired
+    CreneauRepository creneauRepository;
+
+
+
+    // Etablissement ----------------------------------------------------------------
 
     // Get All
     @GetMapping("")
@@ -108,4 +124,50 @@ public class EtablissementController {
 
         return ResponseEntity.ok().build();
     }
+
+    // ! Etablissement ----------------------------------------------------------------
+
+
+
+
+
+    // Créneau ----------------------------------------------------------------
+
+    // Get All creneau for selected week
+    @RequestMapping("/{id}/creneaux")
+    public List<Creneau> getWeekCreneaux(
+            @PathVariable(value = "id") Long etablissementId,
+            @RequestParam(value="year", required=true) int year,
+            @RequestParam(value="week", required=true) int week
+    ) {
+        // Conversion semaine en timestamp en secondes
+
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy MM dd");
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.WEEK_OF_YEAR, 25);
+        cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        cal.set(Calendar.HOUR_OF_DAY, 0);
+        long timestampInMilliseconds = cal.getTimeInMillis();
+        String timeStampStringInMilliseconds = String.valueOf(timestampInMilliseconds);
+        String timeStampStringInSeconds = timeStampStringInMilliseconds.substring(0, timeStampStringInMilliseconds.length() - 3);
+        long timestampInSeconds = Long.parseLong(timeStampStringInSeconds);
+
+        long sevenDays = 7 * 24 * 60 * 60;
+        long semaineDebut = timestampInSeconds;
+        long semaineFin = semaineDebut + sevenDays;
+
+
+
+
+        // https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-creating-database-queries-with-the-query-annotation/
+
+//        https://stackoverflow.com/questions/41152938/java-spring-return-json-object-array#41153043
+
+
+
+        List<Creneau> creneauList = creneauRepository.findAll();
+        return creneauList;
+    }
+
+    // ! Créneau ----------------------------------------------------------------
 }

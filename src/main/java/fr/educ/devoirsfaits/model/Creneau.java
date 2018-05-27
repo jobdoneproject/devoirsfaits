@@ -10,52 +10,42 @@ public class Creneau {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     long idCreneau;
-    Date dateCreneau;
-    Time heureDebut;
-    Time heureFin;
+    long dateDebut;
+    long dateFin;
 
     @OneToOne
     private Salle salle;
 
-    public Creneau(Date dateCreneau, Time heureDebut, Time heureFin, Salle salle) {
-        this.dateCreneau = dateCreneau;
-        this.heureDebut = heureDebut;
-        this.heureFin = heureFin;
+    public Creneau() { }
+
+    public Creneau(long dateDebut, long dateFin, Salle salle) {
+        this.dateDebut = dateDebut;
+        this.dateFin = dateFin;
         this.salle = salle;
     }
-
-    public Creneau() { }
 
     public long getIdCreneau() {
         return idCreneau;
     }
 
-    /*public void setIdCreneau(long idCreneau) {
+    public void setIdCreneau(long idCreneau) {
         this.idCreneau = idCreneau;
-    }*/
-
-    public Date getDateCreneau() {
-        return dateCreneau;
     }
 
-    public void setDateCreneau(Date dateCreneau) {
-        this.dateCreneau = dateCreneau;
+    public long getDateDebut() {
+        return dateDebut;
     }
 
-    public Time getHeureDebut() {
-        return heureDebut;
+    public void setDateDebut(long dateDebut) {
+        this.dateDebut = dateDebut;
     }
 
-    public void setHeureDebut(Time heureDebut) {
-        this.heureDebut = heureDebut;
+    public long getDateFin() {
+        return dateFin;
     }
 
-    public Time getHeureFin() {
-        return heureFin;
-    }
-
-    public void setHeureFin(Time heureFin) {
-        this.heureFin = heureFin;
+    public void setDateFin(long dateFin) {
+        this.dateFin = dateFin;
     }
 
     public Salle getSalle() {
@@ -65,4 +55,5 @@ public class Creneau {
     public void setSalle(Salle salle) {
         this.salle = salle;
     }
+
 }
