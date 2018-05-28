@@ -2,10 +2,13 @@ package fr.educ.devoirsfaits.controller;
 
 
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
@@ -18,6 +21,8 @@ import java.util.Collection;
 import java.util.Map;
 
 @WebFilter(urlPatterns = "/*")
+//@Component
+//@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
 
     @Override
