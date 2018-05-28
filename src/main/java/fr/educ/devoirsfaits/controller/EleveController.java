@@ -15,8 +15,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/eleve")
-@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
-
 public class EleveController {
 
 

@@ -16,7 +16,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/administrateur")
-@CrossOrigin(origins = "*", maxAge = 4800)
 public class AdministrateurController {
 
     @Autowired

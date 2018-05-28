@@ -42,9 +42,9 @@ public class CorsFilter implements Filter {
                 "Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Authorization");
         if (((HttpServletRequest)req).getMethod().equals("OPTIONS")) {
             response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            chain.doFilter(req, response);
         }
-
-        chain.doFilter(req, response);
     }
 
 

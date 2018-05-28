@@ -66,9 +66,12 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // ignoring the guest's urls "
+                //.antMatchers("/account/register","/account/login","/logout").permitAll()
                 .antMatchers("/account/register","/account/login","/logout").permitAll()
                 // authenticate all remaining URLS
                 .antMatchers("/*").authenticated().and()
+                //.antMatchers("/eleves").authenticated().and()
+
 /*
                  logout" will log the user out by invalidating the HTTP Session,
                  cleaning up any {link rememberMe()} authentication that was configured,

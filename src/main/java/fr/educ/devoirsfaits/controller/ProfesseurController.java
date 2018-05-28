@@ -18,8 +18,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/professeur")
-@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
-
 public class ProfesseurController {
 
     @Autowired

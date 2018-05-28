@@ -13,8 +13,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/etablissement")
-@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
-
 public class EtablissementController {
 
     @Autowired
