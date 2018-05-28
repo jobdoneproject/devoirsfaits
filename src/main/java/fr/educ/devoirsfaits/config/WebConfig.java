@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -68,8 +69,10 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/account/register","/account/login","/logout").permitAll()
                 // authenticate all remaining URLS
                 .antMatchers("/*").authenticated().and()
-                /* "/logout" will log the user out by invalidating the HTTP Session,
-                 * cleaning up any {link rememberMe()} authentication that was configured, */
+/*
+                 logout" will log the user out by invalidating the HTTP Session,
+                 cleaning up any {link rememberMe()} authentication that was configured,
+*/
                 .logout()
                 .permitAll()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "POST"))
@@ -80,6 +83,24 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
                 // disabling the CSRF - Cross Site Request Forgery
                 .csrf().disable();
+
+
+
+/*        http.csrf().disable(); // desactive la génération automatique du jeton csrf de spring, attention ceci ouvre une breche de securité cross site request forgery
+        // (verifier dans le header de la reponse http que dans set-cookie il y a bien la notion "HttpOnly qui interdit de lire le javascript).
+        //http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.httpBasic().and()
+                // configuring the session on the server
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED).and()
+                // disabling the CSRF - Cross Site Request Forgery
+                .csrf().disable();
+
+        // http.formLogin(); // je desactive la session et rend le systeme "stateless"
+        http.authorizeRequests().antMatchers("/account/login", "/account/login/**","/account/register","/account/register/**", "/register/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/workspace/**").hasAuthority("USER");
+        http.authorizeRequests().anyRequest().authenticated();  //(Config pour obliger un user à se connecter, avec cette congi toute les ressources son ainsi sécurisées)
+        //http.addFilter(new CorsFilter());*/
 
 
     }
