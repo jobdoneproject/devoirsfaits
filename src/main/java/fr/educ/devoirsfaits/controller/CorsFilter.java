@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-//@WebFilter(urlPatterns = "/*")
+@WebFilter(urlPatterns = "/*")
 //@Component
 //@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
@@ -45,6 +45,13 @@ public class CorsFilter implements Filter {
         } else {
             chain.doFilter(req, response);
         }
+        response.setHeader("Access-Control-Allow-Origin" , "*");
+        response.setHeader("Access-Control-Allow-Headers",
+                "Origin, Accept, X-Requested-With, "
+                        + "Content-Type, Access-Control-Request-Method, "
+                        + "Access-Control-Request-Headers, Authorization");
+        response.setHeader("Access-Control-Expose-Headers",
+                "Access-Control-Allow-Origin, Access-Control-Allow-Credentials, Authorization");
     }
 
 
