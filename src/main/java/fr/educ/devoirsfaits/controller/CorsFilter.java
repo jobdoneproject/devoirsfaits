@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-@WebFilter(urlPatterns = "/*")
+//@WebFilter(urlPatterns = "/*")
 //@Component
 //@Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
