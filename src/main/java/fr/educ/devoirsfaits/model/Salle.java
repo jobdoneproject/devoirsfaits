@@ -12,6 +12,7 @@ public class Salle {
     String nom;
 
     @OneToOne
+    @JoinColumn(name="id_etablissement")
     private Etablissement etablissement ;
 
     public Salle(String nom, Etablissement etablissement) {

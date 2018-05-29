@@ -2,14 +2,17 @@ package fr.educ.devoirsfaits.controller;
 
 import fr.educ.devoirsfaits.model.Creneau;
 import fr.educ.devoirsfaits.repository.CreneauRepository;
+import fr.educ.devoirsfaits.repository.CreneauRepositoryCustom;
 import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
 import fr.educ.devoirsfaits.model.Etablissement;
 import fr.educ.devoirsfaits.repository.AdministrateurRepository;
 import fr.educ.devoirsfaits.repository.EtablissementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 import java.sql.Array;
 import java.sql.Timestamp;
@@ -35,6 +38,9 @@ public class EtablissementController {
 
     @Autowired
     CreneauRepository creneauRepository;
+
+//    @Autowired
+//    CreneauRepositoryCustom creneauRepositoryCustom;
 
 
 
@@ -146,16 +152,18 @@ public class EtablissementController {
         long[] weekBeginEndTimestamps = getWeekTimestampsFromYearAndId(year, week);
 
 
-
-
-
 //        https://www.petrikainulainen.net/programming/spring-framework/spring-data-jpa-tutorial-creating-database-queries-with-the-query-annotation/
 //        https://stackoverflow.com/questions/41152938/java-spring-return-json-object-array#41153043
 //        https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods.query-creation
 
 
-//        List<Creneau> creneauList = creneauRepository.findAll();
-        List<Creneau> creneauList = null;
+        List<Creneau> creneauList = creneauRepository
+                .findByDateDebutAndDateFin(
+                        weekBeginEndTimestamps[0],
+                        weekBeginEndTimestamps[1]
+                );
+        System.out.println();
+
         return creneauList;
     }
 

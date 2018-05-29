@@ -3,6 +3,7 @@ package fr.educ.devoirsfaits.model;
 import javax.persistence.*;
 import java.sql.Time;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Creneau {
@@ -14,7 +15,19 @@ public class Creneau {
     long dateFin;
 
     @OneToOne
+    @JoinColumn(name="id_salle")
     private Salle salle;
+
+
+
+
+
+    // A IMPLEMENTER
+    @OneToMany
+    List<Eleve> eleves;
+
+
+
 
     public Creneau() { }
 
