@@ -18,6 +18,8 @@ public class UtilisateurService implements UserDetailsService {
     //à voir si à conserver ? car doublon avec update() plus bas
     @Produces
     public Utilisateur updateUtilisateur(Utilisateur nouvelUtilisateur, Utilisateur nouvellesDonneesUtilisateur) {
+
+
         nouvelUtilisateur.setNom(nouvellesDonneesUtilisateur.getNom());
         nouvelUtilisateur.setPrenom(nouvellesDonneesUtilisateur.getPrenom());
         nouvelUtilisateur.setMail(nouvellesDonneesUtilisateur.getMail());

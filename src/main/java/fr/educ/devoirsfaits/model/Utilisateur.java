@@ -66,6 +66,10 @@ public abstract class Utilisateur implements Serializable, UserDetails {
     }
 
     public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setpasswordCrypt(String password) {
         this.password = crypt.crypt(password);
     }
 
