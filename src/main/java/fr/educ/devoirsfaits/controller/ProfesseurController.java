@@ -28,8 +28,7 @@ public class ProfesseurController {
     @Autowired
     ProfesseurRepository professeurRepository;
 
-    @Qualifier
-    public UtilisateurService utilisateurService;
+    public UtilisateurService utilisateurService = new UtilisateurService();
 
     // Get All
     @GetMapping("")
@@ -89,6 +88,20 @@ public class ProfesseurController {
         Professeur updatedProfesseur = professeurRepository.save(professeur);
         return updatedProfesseur;
     }
+
+    //update disponible
+    @PutMapping("/disponible/{id}")
+    public ResponseEntity<?> updateDisponibiliteProfesseur(@PathVariable(value = "id") Long professeurId){
+        Professeur professeur = professeurRepository.findById(professeurId)
+                .orElseThrow(() -> new ResourceNotFoundException("Professeur", "id", professeurId));
+
+        professeur.setDisponible(utilisateurService.updateDisponibiliteUtilisateur(professeur.isDisponible()));
+
+        professeurRepository.save(professeur);
+
+        return ResponseEntity.ok().build();
+    }
+
 
     // Delete
     @DeleteMapping("/{id}")
