@@ -1,11 +1,9 @@
 package fr.educ.devoirsfaits.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import fr.educ.devoirsfaits.service.Crypter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.inject.Inject;
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -44,18 +42,10 @@ public abstract class Utilisateur implements Serializable, UserDetails {
     boolean actif;
     private long idEtablissement ;
 
-    @Transient
-    @Inject
-    private Crypter crypt;
-
     @Column(name="role", insertable = false, updatable = false)
     protected String privilege;
 
-
-
     public Utilisateur() { }
-
-
 
     /*public void setIdUtilisateur(long idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
@@ -67,10 +57,6 @@ public abstract class Utilisateur implements Serializable, UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public void setpasswordCrypt(String password) {
-        this.password = crypt.crypt(password);
     }
 
     public String getNom() {
