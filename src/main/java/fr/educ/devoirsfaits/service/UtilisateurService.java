@@ -16,6 +16,12 @@ import javax.inject.Inject;
 @Service
 public class UtilisateurService implements UserDetailsService {
 
+
+    public Boolean updateDisponibiliteUtilisateur(Boolean disponibilite){
+        if (disponibilite) return false;
+        else return true;
+    }
+
     //à voir si à conserver ? car doublon avec update() plus bas
     @Produces
     public Utilisateur updateUtilisateur(Utilisateur utilisateur, Utilisateur nouvellesDonneesUtilisateur) {
@@ -44,18 +50,6 @@ public class UtilisateurService implements UserDetailsService {
             utilisateur.setTelephone(utilisateur.getTelephone());
         }
 
-       /* if (nouvellesDonneesUtilisateur.isActif() != utilisateur.isActif()){
-            utilisateur.setActif(nouvellesDonneesUtilisateur.isActif());
-        } else {
-            utilisateur.setActif(utilisateur.isActif());
-        }
-
-        if (nouvellesDonneesUtilisateur.isDisponible() != utilisateur.isDisponible()){
-            utilisateur.setDisponible(nouvellesDonneesUtilisateur.isDisponible());
-        } else {
-            utilisateur.setDisponible(utilisateur.isDisponible());
-        }*/
-
         if (nouvellesDonneesUtilisateur.getPassword() != null && utilisateur.getPassword() != Crypter.crypt(nouvellesDonneesUtilisateur.getPassword())) {
             utilisateur.setPassword(Crypter.crypt(nouvellesDonneesUtilisateur.getPassword()));
         } else {
@@ -81,7 +75,6 @@ public class UtilisateurService implements UserDetailsService {
         return utilisateurRepository.findById(idUtilisateur)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur", "id", idUtilisateur));
     }
-
 
     @Override
     public UserDetails loadUserByUsername(String nom) throws UsernameNotFoundException {

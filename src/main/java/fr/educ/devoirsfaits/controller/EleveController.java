@@ -87,6 +87,19 @@ public class EleveController {
         return updatedEleve;
     }
 
+    //update disponible
+    @PutMapping("disponible/{id}")
+    public ResponseEntity<?> updateDisponibiliteEleve(@PathVariable(value = "id") Long eleveId){
+        Eleve eleve = eleveRepository.findById(eleveId)
+                .orElseThrow(() -> new ResourceNotFoundException("Eleve", "id", eleveId));
+
+        eleve.setDisponible(utilisateurService.updateDisponibiliteUtilisateur(eleve.isDisponible()));
+
+        eleveRepository.save(eleve);
+
+        return ResponseEntity.ok().build();
+    }
+
     // Delete
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEleve(@PathVariable(value = "id") Long eleveId) {
