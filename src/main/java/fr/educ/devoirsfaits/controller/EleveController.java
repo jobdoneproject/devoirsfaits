@@ -88,7 +88,7 @@ public class EleveController {
     }
 
     //update disponible
-    @PutMapping("disponible/{id}")
+    @PutMapping("/disponible/{id}")
     public ResponseEntity<?> updateDisponibiliteEleve(@PathVariable(value = "id") Long eleveId){
         Eleve eleve = eleveRepository.findById(eleveId)
                 .orElseThrow(() -> new ResourceNotFoundException("Eleve", "id", eleveId));
