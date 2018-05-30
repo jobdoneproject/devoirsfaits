@@ -162,9 +162,8 @@ public class EtablissementController {
                         weekBeginEndTimestamps[0],
                         weekBeginEndTimestamps[1]
                 );
-        System.out.println();
 
-        return creneauList;
+       return creneauList;
     }
 
 

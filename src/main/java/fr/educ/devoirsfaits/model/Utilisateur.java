@@ -8,7 +8,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.inject.Inject;
 import javax.persistence.*;
 import java.io.Serializable;
-
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table(name = "utilisateur")
@@ -23,6 +24,9 @@ public abstract class Utilisateur implements Serializable, UserDetails {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long idUtilisateur;
+
+    @ManyToMany(mappedBy="utilisateurs")
+    private Collection<Creneau> creneaux = new ArrayList<>();
 
     public long getIdUtilisateur() {
         return idUtilisateur;
