@@ -7,62 +7,59 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.codec.Hex;
 import org.springframework.stereotype.Service;
 
-import javax.enterprise.inject.Produces;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Service
 public class UtilisateurService implements UserDetailsService {
 
+    @Autowired
+    UtilisateurRepository utilisateurRepository;
 
-    public Boolean updateDisponibiliteUtilisateur(Boolean disponibilite){
+    public Boolean updateDisponibilite(Boolean disponibilite){
         if (disponibilite) return false;
         else return true;
     }
 
-    //à voir si à conserver ? car doublon avec update() plus bas
-    @Produces
-    public Utilisateur updateUtilisateur(Utilisateur utilisateur, Utilisateur nouvellesDonneesUtilisateur) {
+    public Utilisateur update(long id, Utilisateur utilisateurUpdate) {
 
-        if (nouvellesDonneesUtilisateur.getNom() != null) {
-            utilisateur.setNom(nouvellesDonneesUtilisateur.getNom());
-        } else {
-            utilisateur.setNom(utilisateur.getNom());
-        }
+        Utilisateur utilisateur = find(id);
 
-        if (nouvellesDonneesUtilisateur.getPrenom() != null){
-            utilisateur.setPrenom(nouvellesDonneesUtilisateur.getPrenom());
-        } else {
-            utilisateur.setPrenom(utilisateur.getPrenom());
-        }
+        utilisateur.setNom(utilisateurUpdate.getNom());
+        utilisateur.setPrenom(utilisateurUpdate.getPrenom());
+        utilisateur.setMail(utilisateurUpdate.getMail());
+        utilisateur.setTelephone(utilisateurUpdate.getTelephone());
+        utilisateur.setDisponible(utilisateurUpdate.isDisponible());
 
-        if (nouvellesDonneesUtilisateur.getMail() != null) {
-            utilisateur.setMail(nouvellesDonneesUtilisateur.getMail());
+        if (utilisateur.getPassword().equals(utilisateurUpdate.getPassword())) {
+            utilisateur.setPassword(utilisateurUpdate.getPassword());
         } else {
-            utilisateur.setMail(utilisateur.getMail());
-        }
-
-        if (nouvellesDonneesUtilisateur.getTelephone() != null) {
-            utilisateur.setTelephone(nouvellesDonneesUtilisateur.getTelephone());
-        } else {
-            utilisateur.setTelephone(utilisateur.getTelephone());
-        }
-
-        if (nouvellesDonneesUtilisateur.getPassword() != null && utilisateur.getPassword() != Crypter.crypt(nouvellesDonneesUtilisateur.getPassword())) {
-            utilisateur.setPassword(Crypter.crypt(nouvellesDonneesUtilisateur.getPassword()));
-        } else {
-            utilisateur.setPassword(utilisateur.getPassword());
+            utilisateur.setPassword(Crypter.crypt(utilisateurUpdate.getPassword()));
         }
 
         return utilisateur;
     }
 
+    public String save(Utilisateur utilisateur) {
+        String message;
 
-    @Autowired
-    UtilisateurRepository utilisateurRepository;
+        try {
+            utilisateurRepository.saveAndFlush(utilisateur);
+            message = "entrée validée";
+        } catch(org.springframework.dao.DataIntegrityViolationException e){
+            message = e.getMessage();
+        }
+        return message;
+    }
 
-    public Utilisateur save(Utilisateur utilisateur) {
-        return utilisateurRepository.saveAndFlush(utilisateur);
+    public List<Utilisateur> findAllByIdEtablissementAndPrivilege(long idEtablissement, String privilege){
+        List<Utilisateur> utilisateurs= utilisateurRepository.findAllByIdEtablissementAndPrivilege(idEtablissement, privilege);
+        return utilisateurs;
     }
 
     public Utilisateur find(String mail) {
@@ -74,9 +71,37 @@ public class UtilisateurService implements UserDetailsService {
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur", "id", idUtilisateur));
     }
 
+
+    public void delete(long idUtilisateur){
+        utilisateurRepository.deleteByIdUtilisateur(idUtilisateur);
+
+    }
+
     @Override
     public UserDetails loadUserByUsername(String nom) throws UsernameNotFoundException {
         Utilisateur user = find(nom);
         return  user;
+    }
+
+
+
+    private  MessageDigest digester;
+
+    public String crypt(String str) {
+        try {
+            digester = MessageDigest.getInstance("MD5");
+        }
+        catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+
+        if (str == null || str.length() == 0) {
+            throw new IllegalArgumentException("String to encript cannot be null or zero length");
+        }
+        byte[] hash = digester.digest(
+                str.getBytes(StandardCharsets.UTF_8));
+        String MD5Cryter = new String(Hex.encode(hash));
+
+        return MD5Cryter;
     }
 }

@@ -64,7 +64,7 @@ public class AdministrateurController {
      */
     // Create a new
     @PostMapping("")
-    public String createAdministrateur(@Valid @RequestBody Administrateur administrateur) {
+    public String create(@Valid @RequestBody Administrateur administrateur) {
 
         String message;
         try {
@@ -80,13 +80,13 @@ public class AdministrateurController {
 
     // Update
     @PutMapping("{id}")
-    public Administrateur updateAdministrateur(@PathVariable(value = "id") Long administrateurId,
+    public Administrateur update(@PathVariable(value = "id") Long administrateurId,
                                        @Valid @RequestBody Professeur nouvellesDonneesAdministrateur) {
 
         Administrateur administrateur = administrateurRepository.findById(administrateurId)
                 .orElseThrow(() -> new ResourceNotFoundException("Administrateur", "id", administrateurId));
 
-        administrateur = (Administrateur) utilisateurService.updateUtilisateur( administrateur, nouvellesDonneesAdministrateur);
+        //administrateur = (Administrateur) utilisateurService.updateUtilisateur( administrateur, nouvellesDonneesAdministrateur);
 
         Administrateur updatedAdministrateur = administrateurRepository.save(administrateur);
         return updatedAdministrateur;
@@ -94,7 +94,7 @@ public class AdministrateurController {
 
     // Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteAdministrateur(@PathVariable(value = "id") Long administrateurId) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long administrateurId) {
         Administrateur administrateur = administrateurRepository.findById(administrateurId)
                 .orElseThrow(() -> new ResourceNotFoundException("Administrateur", "id", administrateurId));
 

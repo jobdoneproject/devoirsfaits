@@ -25,7 +25,7 @@ public class EtablissementController {
 
     // Get All
     @GetMapping("")
-    public List<Etablissement> getAllEtablissement() {
+    public List<Etablissement> getAll() {
         List<Etablissement> etablissementList = etablissementRepository.findAll();
         return etablissementList;
     }
@@ -36,7 +36,7 @@ public class EtablissementController {
 
     // Create a new
     @PostMapping("")
-    public long createEtablissement(@Valid @RequestBody Etablissement etablissement) {
+    public long create(@Valid @RequestBody Etablissement etablissement) {
 
         etablissement.setUrlEtablissement();
         etablissementRepository.save(etablissement);
@@ -77,14 +77,14 @@ public class EtablissementController {
 
     // Get a Single
     @GetMapping("/{id}")
-    public Etablissement getEtablissementById(@PathVariable(value = "id") long etablissementId) {
+    public Etablissement getById(@PathVariable(value = "id") long etablissementId) {
         return etablissementRepository.findById(etablissementId)
                 .orElseThrow(() -> new ResourceNotFoundException("Etablissement", "id", etablissementId));
     }
 
     // Update
     @PutMapping("/{id}")
-    public Etablissement updateEtablissement(@PathVariable(value = "id") Long etablissementId,
+    public Etablissement update(@PathVariable(value = "id") Long etablissementId,
                                  @Valid @RequestBody Etablissement etablissementDetails) {
 
         Etablissement etablissement = etablissementRepository.findById(etablissementId)
@@ -100,7 +100,7 @@ public class EtablissementController {
     }
     // Delete
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEtablissement(@PathVariable(value = "id") Long etablissementId) {
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long etablissementId) {
         Etablissement etablissement = etablissementRepository.findById(etablissementId)
                 .orElseThrow(() -> new ResourceNotFoundException("Etablissement", "id", etablissementId));
 

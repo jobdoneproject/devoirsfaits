@@ -36,7 +36,7 @@ public class AccoutController {
     UtilisateurService utilisateurService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> createAdministrateur( @Valid @RequestBody RequetFormulaireAdmin model) {
+    public ResponseEntity<?> createAdministrateurEtablissement( @Valid @RequestBody RequetFormulaireAdmin model) {
 
         Etablissement etablissement = new Etablissement();
         etablissement.setNomEtablissement(model.getEtablissement());
