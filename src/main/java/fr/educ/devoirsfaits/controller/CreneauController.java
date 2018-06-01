@@ -61,6 +61,9 @@ public class CreneauController {
         // TODO Ajout des utilisateurs ???
 
         creneauRepository.save(creneau);
+
+        System.out.println(creneau.getEleves().get(0).getNom());
+        System.out.println();
         return creneau.getIdCreneau();
     }
 
