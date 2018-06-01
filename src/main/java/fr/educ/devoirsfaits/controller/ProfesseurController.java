@@ -1,19 +1,15 @@
 package fr.educ.devoirsfaits.controller;
 
 
-import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
-import fr.educ.devoirsfaits.model.Etablissement;
+import fr.educ.devoirsfaits.model.Utilisateur;
 import fr.educ.devoirsfaits.model.Professeur;
-import fr.educ.devoirsfaits.repository.EtablissementRepository;
-import fr.educ.devoirsfaits.repository.ProfesseurRepository;
 import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Iterator;
 import java.util.List;
 
 @RestController
@@ -23,80 +19,62 @@ import java.util.List;
 public class ProfesseurController {
 
     @Autowired
-    EtablissementRepository etablissementRepository;
-
-    @Autowired
-    ProfesseurRepository professeurRepository;
-
-    @Qualifier
-    public UtilisateurService utilisateurService;
-
-    // Get All
-    @GetMapping("")
-    public List<Professeur> getAllProfesseur() {
-        List<Professeur> listeProfesseur = professeurRepository.findAll();
-
-        return listeProfesseur;
-    }
+    UtilisateurService utilisateurService;
 
     // Get a Single
     @GetMapping("/{id}")
-    public Professeur getProfesseurById(@PathVariable(value = "id") long professeurId) {
-        Professeur professeur = professeurRepository.findById(professeurId)
-                .orElseThrow(() -> new ResourceNotFoundException("Professeur", "id", professeurId));
-        return professeur;
+    public Professeur getById(@PathVariable(value = "id") long idProfesseur) {
+        return (Professeur) utilisateurService.find(idProfesseur);
     }
 
     // Get All By Etablissement
     @GetMapping("/etablissement/{id}")
-    public List<Professeur> getAllProfesseurByEtablissement(@PathVariable(value = "id") long etablissementId) {
-        Etablissement etablissement = etablissementRepository.findById(etablissementId)
-                .orElseThrow(() -> new ResourceNotFoundException("Etablissement", "id", etablissementId));
+    public List<Utilisateur> getAllByEtablissement(@PathVariable(value = "id") long idEtablissement) {
 
-        List<Professeur> listeProfesseur = professeurRepository.findAll();
+        List<Utilisateur> professeurs = utilisateurService.findAllByIdEtablissementAndPrivilege( idEtablissement,"Professeur");
 
-        for (Iterator<Professeur> it = listeProfesseur.iterator(); it.hasNext();){
-            Professeur professeur = it.next();
-            if (professeur.getIdEtablissement() != etablissement.getIdEtablissement()){
-                it.remove();
-            }
-        }
-        return listeProfesseur;
+        return professeurs;
     }
 
     // Create a new
     @PostMapping("")
-    public String createprofesseur(@Valid @RequestBody Professeur professeur) {
-        String message;
-        try {
-            professeurRepository.save(professeur);
-            message = "entrée validée";
-        } catch(org.springframework.dao.DataIntegrityViolationException e){
-            message = e.getMessage();
-        }
+    public String create(@Valid @RequestBody Professeur professeur) {
+        professeur.setPassword(utilisateurService.crypt(professeur.getPassword()));
+
+        String message = utilisateurService.save(professeur);
+
         return message;
     }
     // Update
     @PutMapping("{id}")
-    public Professeur updateProfesseur(@PathVariable(value = "id") Long professeurId,
-                             @Valid @RequestBody Professeur nouvellesDonneesProfesseur) {
+    public String update(@PathVariable(value = "id") Long idProfesseur,
+                             @Valid @RequestBody Professeur professeurUpdate) {
+        Professeur professeur = (Professeur) utilisateurService.update(idProfesseur, professeurUpdate);
 
-        Professeur professeur = professeurRepository.findById(professeurId)
-                .orElseThrow(() -> new ResourceNotFoundException("Professeur", "id", professeurId));
+        String message = utilisateurService.save(professeur);
 
-        professeur = (Professeur) utilisateurService.updateUtilisateur( professeur, nouvellesDonneesProfesseur);
-
-        Professeur updatedProfesseur = professeurRepository.save(professeur);
-        return updatedProfesseur;
+        return message;
     }
 
-    // Delete
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProfesseur(@PathVariable(value = "id") Long professeurId) {
-        Professeur professeur = professeurRepository.findById(professeurId)
-                .orElseThrow(() -> new ResourceNotFoundException("Professeur", "id", professeurId));
+    //update disponible
+    @PutMapping("/disponible/{id}")
+    public ResponseEntity<?> updateDisponibilite(@PathVariable(value = "id") Long idProfesseur){
+        Professeur professeur = (Professeur) utilisateurService.find(idProfesseur);
 
-        professeurRepository.delete(professeur);
+        professeur.setDisponible(utilisateurService.updateDisponibilite(professeur.isDisponible()));
+
+        utilisateurService.save(professeur);
+
+        return ResponseEntity.ok().build();
+    }
+
+
+    // Delete
+    @Transactional
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable(value = "id") Long idProfesseur) {
+
+        utilisateurService.delete(idProfesseur);
 
         return ResponseEntity.ok().build();
     }

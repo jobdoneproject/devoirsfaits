@@ -1,100 +1,87 @@
 package fr.educ.devoirsfaits.controller;
 
-import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
 import fr.educ.devoirsfaits.model.Eleve;
+import fr.educ.devoirsfaits.model.Utilisateur;
 import fr.educ.devoirsfaits.repository.EleveRepository;
 import fr.educ.devoirsfaits.repository.EtablissementRepository;
 import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Iterator;
 import java.util.List;
 
 @RestController
 @RequestMapping("/eleve")
 @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
-
 public class EleveController {
 
 
     @Autowired
-    EtablissementRepository etablissementRepository;
+    UtilisateurService utilisateurService;
 
-    @Autowired
-    EleveRepository eleveRepository;
-
-    public UtilisateurService utilisateurService = new UtilisateurService();
-
-    // Get All
-    @GetMapping("")
-    public List<Eleve> getAllEleve() {
-        List<Eleve> listeEleve = eleveRepository.findAll();
-
-        return listeEleve;
-    }
     // Get All By Etablissement
     @GetMapping("/etablissement/{id}")
-    public List<Eleve> getAllEleveByEtablissement(@PathVariable(value = "id") long etablissementId) {
+    public List<Utilisateur> getAllByEtablissement(@PathVariable(value = "id") long idEtablissement) {
 
-        List<Eleve> listeEleve = eleveRepository.findAll();
+        List<Utilisateur> eleves = utilisateurService.findAllByIdEtablissementAndPrivilege( idEtablissement,"Eleve");
 
-        for (Iterator<Eleve> it = listeEleve.iterator(); it.hasNext();){
-            Eleve eleve = it.next();
-            if (eleve.getIdEtablissement() != etablissementId){
-                it.remove();
-            }
-        }
-        return listeEleve;
+        return eleves;
     }
 
     // Get a Single
     @GetMapping("/{id}")
-    public Eleve getEleveById(@PathVariable(value = "id") long eleveId) {
+    public Eleve getById(@PathVariable(value = "id") long idEleve) {
 
-        return eleveRepository.findById(eleveId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Eleve", "id", eleveId));
-        }
+        return (Eleve) utilisateurService.find(idEleve);
+    }
 
     // Create a new
     @PostMapping("")
-    public String createEleve(@Valid @RequestBody Eleve eleve) {
-    String message;
-        try {
-            eleveRepository.save(eleve);
-             message = "entrée validée";
-        } catch(org.springframework.dao.DataIntegrityViolationException e){
-            message = e.getMessage();
-        }
+    public String create(@Valid @RequestBody Eleve eleve) {
+
+        eleve.setPassword(utilisateurService.crypt(eleve.getPassword()));
+
+        String message = utilisateurService.save(eleve);
+
         return message;
     }
 
     // Update
-    @PutMapping("{id}")
-    public Eleve updateEleve(@PathVariable(value = "id") Long eleveId,
-                             @Valid @RequestBody Eleve nouvellesDonneesEleve) {
+    @PutMapping("/{id}")
+    public String update(@PathVariable(value = "id") Long idEleve,
+                             @Valid @RequestBody Eleve eleveUpdate) {
 
-        Eleve eleve = eleveRepository.findById(eleveId)
-                .orElseThrow(() -> new ResourceNotFoundException("eleve", "id", eleveId));
+        Eleve eleve = (Eleve) utilisateurService.update(idEleve, eleveUpdate);
+        eleve.setClasse(eleveUpdate.getClasse());
 
-        eleve = (Eleve) utilisateurService.updateUtilisateur( eleve, nouvellesDonneesEleve);
+        String message = utilisateurService.save(eleve);
 
-        eleve.setClasse(nouvellesDonneesEleve.getClasse());
+        return message;
+    }
 
-        Eleve updatedEleve = eleveRepository.save(eleve);
-        return updatedEleve;
+    //update disponible
+    @PutMapping("/disponible/{id}")
+    public ResponseEntity<?> updateDisponibilite(@PathVariable(value = "id") Long idEleve){
+        Eleve eleve = (Eleve) utilisateurService.find(idEleve);
+
+
+        eleve.setDisponible(utilisateurService.updateDisponibilite(eleve.isDisponible()));
+
+        utilisateurService.save(eleve);
+
+        return ResponseEntity.ok().build();
     }
 
     // Delete
+    @Transactional
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteEleve(@PathVariable(value = "id") Long eleveId) {
-        Eleve eleve = eleveRepository.findById(eleveId)
-                .orElseThrow(() -> new ResourceNotFoundException("Eleve", "id", eleveId));
+    public void delete(@PathVariable(value = "id") Long idEleve) {
 
-        eleveRepository.delete(eleve);
+        utilisateurService.delete(idEleve);
 
-        return ResponseEntity.ok().build();
+
     }
 }

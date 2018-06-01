@@ -5,6 +5,7 @@ import fr.educ.devoirsfaits.model.Etablissement;
 import fr.educ.devoirsfaits.model.RequetFormulaireAdmin;
 import fr.educ.devoirsfaits.repository.AdministrateurRepository;
 import fr.educ.devoirsfaits.repository.EtablissementRepository;
+import fr.educ.devoirsfaits.service.Crypter;
 import fr.educ.devoirsfaits.service.UtilisateurService;
 import fr.educ.devoirsfaits.utils.CustomErrorType;
 import org.slf4j.Logger;
@@ -35,7 +36,7 @@ public class AccoutController {
     UtilisateurService utilisateurService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> createAdministrateur( @Valid @RequestBody RequetFormulaireAdmin model) {
+    public ResponseEntity<?> createAdministrateurEtablissement( @Valid @RequestBody RequetFormulaireAdmin model) {
 
         Etablissement etablissement = new Etablissement();
         etablissement.setNomEtablissement(model.getEtablissement());
@@ -48,7 +49,7 @@ public class AccoutController {
         administrateur.setNom(model.getNom());
         administrateur.setPrenom(model.getPrenom());
         administrateur.setMail(model.getMail());
-        administrateur.setPassword(model.getPassword());
+        administrateur.setPassword(Crypter.crypt(model.getPassword()));
         administrateur.setIdEtablissement(etablissement.getIdEtablissement());
 
         if (utilisateurService.find(administrateur.getMail()) != null) {
