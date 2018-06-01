@@ -1,5 +1,8 @@
 package fr.educ.devoirsfaits.controller;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.educ.devoirsfaits.model.Creneau;
 import fr.educ.devoirsfaits.repository.CreneauRepository;
 import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
@@ -8,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -60,10 +64,25 @@ public class CreneauController {
 
         // TODO Ajout des utilisateurs ???
 
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            Creneau creneauJson = mapper.readValue(creneau.toString(), Creneau.class);
+            System.out.println(creneauJson);
+
+
+
+        } catch (JsonGenerationException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         creneauRepository.save(creneau);
 
-        System.out.println(creneau.getEleves().get(0).getNom());
-        System.out.println();
         return creneau.getIdCreneau();
     }
 
