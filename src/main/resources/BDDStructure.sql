@@ -19,6 +19,37 @@
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+# Affichage de la table etablissement
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `etablissement`;
+
+CREATE TABLE `etablissement` (
+  `id_etablissement` int(11) NOT NULL AUTO_INCREMENT,
+  `nom_etablissement` varchar(255) DEFAULT NULL,
+  `url_etablissement` varchar(255) DEFAULT NULL,
+  `ville_etablissement` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_etablissement`),
+  UNIQUE KEY `url_etablissement` (`url_etablissement`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Affichage de la table salle
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `salle`;
+
+CREATE TABLE `salle` (
+  `id_salle` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(255) DEFAULT NULL,
+  `id_etablissement` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id_salle`),
+  KEY `FK_Salle_id_etablissement` (`id_etablissement`),
+  CONSTRAINT `FK_Salle_id_etablissement` FOREIGN KEY (`id_etablissement`) REFERENCES `etablissement` (`id_etablissement`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 
 # Affichage de la table creneau
 # ------------------------------------------------------------
@@ -37,19 +68,6 @@ CREATE TABLE `creneau` (
 
 
 
-# Affichage de la table etablissement
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `etablissement`;
-
-CREATE TABLE `etablissement` (
-  `id_etablissement` int(11) NOT NULL AUTO_INCREMENT,
-  `nom_etablissement` varchar(255) DEFAULT NULL,
-  `url_etablissement` varchar(255) DEFAULT NULL,
-  `ville_etablissement` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_etablissement`),
-  UNIQUE KEY `url_etablissement` (`url_etablissement`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 # Affichage de la table groupe
@@ -61,6 +79,31 @@ CREATE TABLE `groupe` (
   `id_groupe` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_groupe`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+# Affichage de la table utilisateur
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `utilisateur`;
+
+CREATE TABLE `utilisateur` (
+  `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT,
+  `password` char(40) DEFAULT NULL,
+  `nom` varchar(50) NOT NULL DEFAULT 'nom',
+  `prenom` varchar(50) NOT NULL DEFAULT 'prenom',
+  `mail` varchar(100) NOT NULL DEFAULT 'mail@mail.fr',
+  `disponible` tinyint(1) NOT NULL DEFAULT '0',
+  `actif` tinyint(1) NOT NULL DEFAULT '0',
+  `telephone` varchar(25) DEFAULT NULL,
+  `classe` varchar(25) DEFAULT NULL,
+  `id_etablissement` int(11) NOT NULL DEFAULT '1',
+  `role` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`id_utilisateur`),
+  UNIQUE KEY `mail` (`mail`),
+  KEY `FK_Utilisateur_id_etablissement` (`id_etablissement`),
+  CONSTRAINT `FK_Utilisateur_id_etablissement` FOREIGN KEY (`id_etablissement`) REFERENCES `etablissement` (`id_etablissement`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -130,46 +173,6 @@ CREATE TABLE `relations_groupes` (
   CONSTRAINT `FK_RelationsGroupes_id_utilisateur` FOREIGN KEY (`id_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-
-# Affichage de la table salle
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `salle`;
-
-CREATE TABLE `salle` (
-  `id_salle` int(11) NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) DEFAULT NULL,
-  `id_etablissement` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id_salle`),
-  KEY `FK_Salle_id_etablissement` (`id_etablissement`),
-  CONSTRAINT `FK_Salle_id_etablissement` FOREIGN KEY (`id_etablissement`) REFERENCES `etablissement` (`id_etablissement`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-# Affichage de la table utilisateur
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `utilisateur`;
-
-CREATE TABLE `utilisateur` (
-  `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT,
-  `password` char(40) DEFAULT NULL,
-  `nom` varchar(50) NOT NULL DEFAULT 'nom',
-  `prenom` varchar(50) NOT NULL DEFAULT 'prenom',
-  `mail` varchar(100) NOT NULL DEFAULT 'mail@mail.fr',
-  `disponible` tinyint(1) NOT NULL DEFAULT '0',
-  `actif` tinyint(1) NOT NULL DEFAULT '0',
-  `telephone` varchar(25) DEFAULT NULL,
-  `classe` varchar(25) DEFAULT NULL,
-  `id_etablissement` int(11) NOT NULL DEFAULT '1',
-  `role` varchar(30) DEFAULT NULL,
-  PRIMARY KEY (`id_utilisateur`),
-  UNIQUE KEY `mail` (`mail`),
-  KEY `FK_Utilisateur_id_etablissement` (`id_etablissement`),
-  CONSTRAINT `FK_Utilisateur_id_etablissement` FOREIGN KEY (`id_etablissement`) REFERENCES `etablissement` (`id_etablissement`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 

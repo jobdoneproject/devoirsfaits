@@ -13,19 +13,6 @@ import java.util.*;
 import static javax.persistence.CascadeType.ALL;
 
 @Entity
-/*@FilterDef(name="utilisateurPrivilegeFilter",
-            parameters=@ParamDef(
-                name="utilisateurPrivilegeFilterParam",
-                type="string"))
-@Filters({@Filter(
-        name="utilisateurPrivilegeFilter",
-        condition="privilege = Eleve",
-        deduceAliasInjectionPoints = false
-)})*/
-@FilterDef(name="utilisateurPrivilegeFilter",
-        parameters=@ParamDef(
-            name="privilegeParam",
-            type="string"), defaultCondition = "Eleve")
 @Table(name="creneau")
 public class Creneau implements java.io.Serializable {
 
@@ -51,6 +38,7 @@ public class Creneau implements java.io.Serializable {
             @FilterJoinTable(
                     name="utilisateur",
                     condition = ":privilege = Eleve")*/
+
     @JoinTable(
             name = "participant",
             joinColumns = {@JoinColumn(name = "id_creneau")},
@@ -61,6 +49,7 @@ public class Creneau implements java.io.Serializable {
     )
     @JsonIgnore
     Collection<Utilisateur> utilisateurs = new ArrayList<>();
+
 
 
 
@@ -112,6 +101,11 @@ public class Creneau implements java.io.Serializable {
             }
         }
         return eleves;
+    }
+
+
+    public void setEleves(List<Eleve> eleves)  {
+        this.utilisateurs = new ArrayList<>(eleves);
     }
 
     public List<Professeur> getProfesseurs() {
