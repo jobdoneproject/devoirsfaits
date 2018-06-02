@@ -25,9 +25,6 @@ public abstract class Utilisateur implements Serializable, UserDetails {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private long idUtilisateur;
 
-    @ManyToMany(mappedBy="utilisateurs")
-    private Collection<Creneau> creneaux = new ArrayList<>();
-
     public long getIdUtilisateur() {
         return idUtilisateur;
     }

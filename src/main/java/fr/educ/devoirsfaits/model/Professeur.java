@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import java.util.ArrayList;
@@ -18,6 +19,10 @@ public class Professeur extends Utilisateur {
 
     public Professeur() {
     }
+
+    @ManyToMany(mappedBy="professeurs")
+    private Collection<Creneau> creneaux = new ArrayList<>();
+
 
     @JsonIgnore
     @Override

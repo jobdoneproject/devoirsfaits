@@ -15,13 +15,6 @@ public class Eleve extends Utilisateur {
 
     private String classe;
 
-    /*@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="participant")
-    private Eleve eleve;*/
-
-    /*@ManyToMany(mappedBy="eleves")
-    private Collection<Creneau> creneaux = new ArrayList<>();*/
-
     public Eleve() {
     }
     public String getClasse() {
@@ -31,6 +24,9 @@ public class Eleve extends Utilisateur {
     public void setClasse(String classe) {
         this.classe = classe;
     }
+
+    @ManyToMany(mappedBy="eleves")
+    private Collection<Creneau> creneaux = new ArrayList<>();
 
     @JsonIgnore
     @Override

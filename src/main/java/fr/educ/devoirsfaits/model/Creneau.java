@@ -27,30 +27,21 @@ public class Creneau implements java.io.Serializable {
     private Salle salle;
 
     @ManyToMany
-    /*@JoinTable(
-            name = "participant",
-            joinColumns = {@JoinColumn(name = "id_creneau")},
-            inverseJoinColumns = {@JoinColumn(name = "id_utilisateur")})
-    @Filter(
-            name="utilisateurPrivilegeFilter",
-            condition="privilege = Eleve"
-    )
-            @FilterJoinTable(
-                    name="utilisateur",
-                    condition = ":privilege = Eleve")*/
-
     @JoinTable(
             name = "participant",
             joinColumns = {@JoinColumn(name = "id_creneau")},
             inverseJoinColumns = {@JoinColumn(name = "id_utilisateur")})
-    @Filter(
-            name="utilisateurPrivilegeFilter",
-            condition="role = :privilegeParam"
-    )
-    @JsonIgnore
-    Collection<Utilisateur> utilisateurs = new ArrayList<>();
+    @Where(clause = "role = 'Eleve'")
+    List<Eleve> eleves = new ArrayList<>();
 
 
+    @ManyToMany
+    @JoinTable(
+            name = "participant",
+            joinColumns = {@JoinColumn(name = "id_creneau")},
+            inverseJoinColumns = {@JoinColumn(name = "id_utilisateur")})
+    @Where(clause = "role = 'Professeur'")
+    List<Professeur> professeurs = new ArrayList<>();
 
 
     public Creneau() { }
@@ -94,28 +85,20 @@ public class Creneau implements java.io.Serializable {
     }
 
     public List<Eleve> getEleves() {
-        List<Eleve> eleves = new ArrayList<>();
-        for (Utilisateur utilisateur: this.utilisateurs) {
-            if (utilisateur instanceof Eleve) {
-                eleves.add((Eleve) utilisateur);
-            }
-        }
         return eleves;
     }
 
 
     public void setEleves(List<Eleve> eleves)  {
-        this.utilisateurs = new ArrayList<>(eleves);
+        this.eleves = eleves;
     }
 
+
     public List<Professeur> getProfesseurs() {
-        List<Professeur> professeurs = new ArrayList<>();
-        for (Utilisateur utilisateur: this.utilisateurs) {
-            if (utilisateur instanceof Professeur) {
-                professeurs.add((Professeur) utilisateur);
-            }
-        }
         return professeurs;
     }
 
+    public void setProfesseurs(List<Professeur> professeurs) {
+        this.professeurs = professeurs;
+    }
 }
