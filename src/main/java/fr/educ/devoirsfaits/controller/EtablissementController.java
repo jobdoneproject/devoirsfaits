@@ -23,6 +23,7 @@ public class EtablissementController {
     @Autowired
     AdministrateurRepository administrateurRepository;
 
+
     // Get All
     @GetMapping("")
     public List<Etablissement> getAll() {
@@ -108,4 +109,5 @@ public class EtablissementController {
 
         return ResponseEntity.ok().build();
     }
+
 }

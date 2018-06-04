@@ -34,9 +34,9 @@ public class EleveController {
     // Get a Single
     @GetMapping("/{id}")
     public Eleve getById(@PathVariable(value = "id") long idEleve) {
-
         return (Eleve) utilisateurService.find(idEleve);
     }
+
 
     // Create a new
     @PostMapping("")
@@ -79,9 +79,6 @@ public class EleveController {
     @Transactional
     @DeleteMapping("/{id}")
     public void delete(@PathVariable(value = "id") Long idEleve) {
-
         utilisateurService.delete(idEleve);
-
-
     }
 }

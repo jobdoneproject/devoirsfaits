@@ -6,7 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
-
+import java.util.ArrayList;
+import java.util.Collection;
 
 @Entity
 @Table(name = "utilisateur")
