@@ -55,7 +55,7 @@ public class EleveController {
     public Eleve getEleveById(@PathVariable(value = "id") long eleveId) {
 
         return eleveRepository.findById(eleveId)
-                    .orElseThrow(() -> new ResourceNotFoundException("Eleve", "id", eleveId));
+                    .orElseThrow(() -> new ResourceNotFoundException("ParticipantSerializer", "id", eleveId));
         }
 
     // Create a new
@@ -91,7 +91,7 @@ public class EleveController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteEleve(@PathVariable(value = "id") Long eleveId) {
         Eleve eleve = eleveRepository.findById(eleveId)
-                .orElseThrow(() -> new ResourceNotFoundException("Eleve", "id", eleveId));
+                .orElseThrow(() -> new ResourceNotFoundException("ParticipantSerializer", "id", eleveId));
 
         eleveRepository.delete(eleve);
 

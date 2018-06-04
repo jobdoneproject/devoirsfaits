@@ -25,8 +25,10 @@ public class Eleve extends Utilisateur {
         this.classe = classe;
     }
 
+/*
     @ManyToMany(mappedBy="eleves")
     private Collection<Creneau> creneaux = new ArrayList<>();
+*/
 
     @JsonIgnore
     @Override

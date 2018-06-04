@@ -20,8 +20,10 @@ public class Professeur extends Utilisateur {
     public Professeur() {
     }
 
+/*
     @ManyToMany(mappedBy="professeurs")
     private Collection<Creneau> creneaux = new ArrayList<>();
+*/
 
 
     @JsonIgnore

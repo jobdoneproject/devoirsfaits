@@ -1,16 +1,12 @@
 package fr.educ.devoirsfaits.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.*;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import fr.educ.devoirsfaits.json.ParticipantSerializer;
 
 import javax.persistence.*;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.sql.Time;
 import java.util.*;
-
-import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Table(name="creneau")
@@ -26,22 +22,59 @@ public class Creneau implements java.io.Serializable {
     @JoinColumn(name="id_salle")
     private Salle salle;
 
+/*    @ManyToMany
+    @JoinTable(
+            name = "participant",
+            joinColumns = {@JoinColumn(name = "id_creneau")},
+            inverseJoinColumns = {@JoinColumn(name = "id_utilisateur")})
+    @Where(clause = "role = 'ParticipantSerializer'")
+    @WhereJoinTable(clause = "present=true")
+    List<ParticipantSerializer> presents = new ArrayList<>();
+
+    public List<ParticipantSerializer> getPresents() {
+        return presents;
+    }
+
+    public void setPresents(List<ParticipantSerializer> eleves)  {
+        this.presents = eleves;
+    }
+
+
+
     @ManyToMany
     @JoinTable(
             name = "participant",
             joinColumns = {@JoinColumn(name = "id_creneau")},
             inverseJoinColumns = {@JoinColumn(name = "id_utilisateur")})
-    @Where(clause = "role = 'Eleve'")
-    List<Eleve> eleves = new ArrayList<>();
+    @Where(clause = "role = 'ParticipantSerializer'")
+    @WhereJoinTable(clause = "present=false")
+    List<ParticipantSerializer> absents = new ArrayList<>();
 
+    public List<ParticipantSerializer> getAbsents() {
+        return absents;
+    }
 
-    @ManyToMany
+    public void setAbsents(List<ParticipantSerializer> eleves)  {
+        this.absents = eleves;
+    }*/
+
+    @ElementCollection
     @JoinTable(
             name = "participant",
-            joinColumns = {@JoinColumn(name = "id_creneau")},
-            inverseJoinColumns = {@JoinColumn(name = "id_utilisateur")})
-    @Where(clause = "role = 'Professeur'")
-    List<Professeur> professeurs = new ArrayList<>();
+            joinColumns = {@JoinColumn(name = "id_creneau")}
+    )
+    @MapKeyJoinColumn(name = "id_utilisateur", table = "participant")
+    @MapKeyClass(Utilisateur.class)
+    @Column(name="present")
+    @JsonSerialize(using = ParticipantSerializer.class)
+    Map<Utilisateur,Boolean> participants = new HashMap<>();
+    public Map<Utilisateur,Boolean> getParticipants() {
+        return participants;
+    }
+
+    public void setParticipants(Map<Utilisateur,Boolean> participants) {
+        this.participants = participants;
+    }
 
 
     public Creneau() { }
@@ -84,21 +117,26 @@ public class Creneau implements java.io.Serializable {
         this.salle = salle;
     }
 
-    public List<Eleve> getEleves() {
-        return eleves;
-    }
 
+/*
 
-    public void setEleves(List<Eleve> eleves)  {
-        this.eleves = eleves;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "participant",
+            joinColumns = {@JoinColumn(name = "id_creneau")},
+            inverseJoinColumns = {@JoinColumn(name = "id_utilisateur")})
+    @Where(clause = "role = 'Professeur'")
+    Collection<Professeur> professeurs = new ArrayList<>();
 
-
-    public List<Professeur> getProfesseurs() {
+    public Collection<Professeur> getProfesseurs() {
         return professeurs;
     }
 
-    public void setProfesseurs(List<Professeur> professeurs) {
+    public void setProfesseurs(Collection<Professeur> professeurs) {
         this.professeurs = professeurs;
     }
+*/
+
+
+
 }
