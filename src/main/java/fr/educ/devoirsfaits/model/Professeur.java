@@ -20,6 +20,12 @@ public class Professeur extends Utilisateur {
     public Professeur() {
     }
 
+    public Professeur(long id) {
+        super();
+        this.setIdUtilisateur(id);
+    }
+
+
 /*
     @ManyToMany(mappedBy="professeurs")
     private Collection<Creneau> creneaux = new ArrayList<>();

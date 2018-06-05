@@ -17,6 +17,12 @@ public class Eleve extends Utilisateur {
 
     public Eleve() {
     }
+
+    public Eleve(long id) {
+        super();
+        this.setIdUtilisateur(id);
+    }
+
     public String getClasse() {
         return classe;
     }

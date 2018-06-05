@@ -3,7 +3,9 @@ package fr.educ.devoirsfaits.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import fr.educ.devoirsfaits.json.CreneauDeserializer;
 import fr.educ.devoirsfaits.json.ParticipantSerializer;
 import org.hibernate.annotations.Where;
 
@@ -16,6 +18,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Table(name="creneau")
+@JsonDeserialize(using = CreneauDeserializer.class)
 public class Creneau implements java.io.Serializable {
 
     @Id
@@ -36,7 +39,7 @@ public class Creneau implements java.io.Serializable {
     @MapKeyJoinColumn(name = "id_utilisateur", table = "participant")
     @MapKeyClass(Utilisateur.class)
     @Column(name="present")
-    @JsonIgnore
+    @JsonIgnore //on serialize les eleves et les professeurs indépendamment par le biais de getElevesParticipant et getProgesseurs)
     Map<Utilisateur,Boolean> participantsWithPresence = new HashMap<>();
 
 

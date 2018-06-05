@@ -32,9 +32,9 @@ public class Salle {
         return idSalle;
     }
 
-    /*public void setIdSalle(long idSalle) {
+    public void setIdSalle(long idSalle) {
         this.idSalle = idSalle;
-    }*/
+    }
 
     public String getNom() {
         return nom;
