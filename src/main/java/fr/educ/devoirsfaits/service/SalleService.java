@@ -19,4 +19,17 @@ public class SalleService {
         return toutesLesSalles.stream().filter(salleCourante -> salleCourante.getEtablissement().
                 getIdEtablissement() == idEtablissement).collect(Collectors.toList());
     }
+
+    public String save(Salle salle) {
+        String message;
+
+        try {
+            salleRepository.saveAndFlush(salle);
+            message = "Entrée validée.";
+        } catch (org.springframework.dao.DataIntegrityViolationException e){
+            message = e.getMessage();
+        }
+
+        return message;
+    }
 }

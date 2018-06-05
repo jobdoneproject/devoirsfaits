@@ -1,9 +1,13 @@
 package fr.educ.devoirsfaits.controller;
 
+import fr.educ.devoirsfaits.model.Etablissement;
 import fr.educ.devoirsfaits.model.Salle;
+import fr.educ.devoirsfaits.service.EtablissementService;
 import fr.educ.devoirsfaits.service.SalleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -14,6 +18,9 @@ public class SalleController {
 
     @Autowired
     SalleService salleService;
+
+    @Autowired
+    EtablissementService etablissementService;
 
     // Get All By Etablissement
     @GetMapping("/{id}/salles")
@@ -28,6 +35,13 @@ public class SalleController {
     ) {
         List<Salle> sallesEtablissement = salleService.findAllByIdEtablissement(idEtablissement);
         return sallesEtablissement.stream().filter(salleCourante -> salleCourante.getIdSalle() == idSalle).limit(1).collect(Collectors.toList()).get(0);
+    }
+
+    @PostMapping("/{idEtabl}/salles")
+    public String create(@PathVariable(value = "idEtabl") long idEtablissement, @Valid @RequestBody Salle salle){
+        Etablissement etablissement = etablissementService.getById(idEtablissement);
+        salle.setEtablissement(etablissement);
+        return salleService.save(salle);
     }
 
 }

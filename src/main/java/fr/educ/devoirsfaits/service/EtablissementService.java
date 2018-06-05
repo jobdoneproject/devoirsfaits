@@ -2,6 +2,7 @@ package fr.educ.devoirsfaits.service;
 
 import fr.educ.devoirsfaits.model.Etablissement;
 import fr.educ.devoirsfaits.repository.EtablissementRepository;
+import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +33,9 @@ public class EtablissementService {
             e.printStackTrace();
         }
         return etablissement;
+    }
+
+    public Etablissement getById(long id) {
+        return etablissementRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Etablissement", "id", id));
     }
 }
