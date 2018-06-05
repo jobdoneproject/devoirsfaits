@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/eleve")
+@RequestMapping("/etablissements/{idEtablissement}/eleves")
 @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
 public class EleveController {
 
@@ -23,7 +23,7 @@ public class EleveController {
     UtilisateurService utilisateurService;
 
     // Get All By Etablissement
-    @GetMapping("/etablissement/{id}")
+    @GetMapping("")
     public List<Utilisateur> getAllByEtablissement(@PathVariable(value = "id") long idEtablissement) {
 
         List<Utilisateur> eleves = utilisateurService.findAllByIdEtablissementAndPrivilege( idEtablissement,"Eleve");
