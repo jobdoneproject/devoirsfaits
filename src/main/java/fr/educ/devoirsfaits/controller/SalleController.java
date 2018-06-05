@@ -1,10 +1,12 @@
 package fr.educ.devoirsfaits.controller;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import fr.educ.devoirsfaits.model.Etablissement;
 import fr.educ.devoirsfaits.model.Salle;
 import fr.educ.devoirsfaits.service.EtablissementService;
 import fr.educ.devoirsfaits.service.SalleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -38,7 +40,7 @@ public class SalleController {
     }
 
     @PostMapping("/{idEtabl}/salles")
-    public String create(@PathVariable(value = "idEtabl") long idEtablissement, @Valid @RequestBody Salle salle){
+    public String create(@PathVariable(value = "idEtabl") long idEtablissement, @Valid @RequestBody @JsonDeserialize Salle salle){
         Etablissement etablissement = etablissementService.getById(idEtablissement);
         salle.setEtablissement(etablissement);
         return salleService.save(salle);
