@@ -13,9 +13,8 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/professeur")
+@RequestMapping("/etablissements/{idEtablissement}/professeurs")
 @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
-
 public class ProfesseurController {
 
     @Autowired
@@ -28,8 +27,8 @@ public class ProfesseurController {
     }
 
     // Get All By Etablissement
-    @GetMapping("/etablissement/{id}")
-    public List<Utilisateur> getAllByEtablissement(@PathVariable(value = "id") long idEtablissement) {
+    @GetMapping("")
+    public List<Utilisateur> getAllByEtablissement(@PathVariable(value = "idEtablissement") long idEtablissement) {
 
         List<Utilisateur> professeurs = utilisateurService.findAllByIdEtablissementAndPrivilege( idEtablissement,"Professeur");
 
@@ -57,7 +56,7 @@ public class ProfesseurController {
     }
 
     //update disponible
-    @PutMapping("/disponible/{id}")
+    @PutMapping("/{id}/disponible")
     public ResponseEntity<?> updateDisponibilite(@PathVariable(value = "id") Long idProfesseur){
         Professeur professeur = (Professeur) utilisateurService.find(idProfesseur);
 
