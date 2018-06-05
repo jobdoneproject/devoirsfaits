@@ -14,7 +14,6 @@ public class SalleService {
     @Autowired
     private SalleRepository salleRepository;
 
-
     public List<Salle> findAllByIdEtablissement(long idEtablissement) {
         List<Salle> toutesLesSalles = salleRepository.findAll();
         return toutesLesSalles.stream().filter(salleCourante -> salleCourante.getEtablissement().
