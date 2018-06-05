@@ -1,8 +1,8 @@
 package fr.educ.devoirsfaits.model;
 
-import com.fasterxml.jackson.annotation.JsonFilter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import javax.persistence.*;
 
@@ -16,7 +16,7 @@ public class Salle {
 
     String nom;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="id_etablissement")
     @JsonIgnore
     private Etablissement etablissement ;
