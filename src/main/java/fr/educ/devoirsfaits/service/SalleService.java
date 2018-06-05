@@ -1,7 +1,9 @@
 package fr.educ.devoirsfaits.service;
 
+import fr.educ.devoirsfaits.model.Eleve;
 import fr.educ.devoirsfaits.model.Salle;
 import fr.educ.devoirsfaits.repository.SalleRepository;
+import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +33,16 @@ public class SalleService {
         }
 
         return message;
+    }
+
+    public Salle findById(long idSalle) {
+        return salleRepository.findById(idSalle).orElseThrow(() -> new ResourceNotFoundException("Salle", "id", idSalle));
+    }
+
+    public Salle update(long id, Salle nouvelleValeurSalle) {
+        Salle daoSalle = findById(id);
+        daoSalle.setNom(nouvelleValeurSalle.getNom());
+
+        return daoSalle;
     }
 }

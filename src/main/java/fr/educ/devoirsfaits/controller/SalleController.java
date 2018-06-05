@@ -46,4 +46,20 @@ public class SalleController {
         return salleService.save(salle);
     }
 
+    @PutMapping("/{idEtabl}/salles/{idSalle}")
+    public String update(
+            @PathVariable(value = "idEtabl") long idEtablissement,
+            @PathVariable(value = "idSalle") long idSalle,
+            @Valid @RequestBody Salle salleUpdate
+    ) {
+        String message;
+        Salle salle = salleService.update(idSalle, salleUpdate);
+        if (salle.getEtablissement().getIdEtablissement() != idEtablissement) {
+            message = "Cette salle n'appartient pas à votre établissement.";
+        } else {
+            message = salleService.save(salle);
+        }
+        return message;
+    }
+
 }
