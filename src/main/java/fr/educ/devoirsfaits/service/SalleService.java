@@ -45,4 +45,8 @@ public class SalleService {
 
         return daoSalle;
     }
+
+    public void delete(long idSalle) {
+        salleRepository.deleteById(idSalle);
+    }
 }

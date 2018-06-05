@@ -7,6 +7,7 @@ import fr.educ.devoirsfaits.service.EtablissementService;
 import fr.educ.devoirsfaits.service.SalleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -59,6 +60,27 @@ public class SalleController {
         } else {
             message = salleService.save(salle);
         }
+        return message;
+    }
+
+    @Transactional
+    @DeleteMapping("/{idEtabl}/salles/{idSalle}")
+    public String delete(
+            @PathVariable(value = "idEtabl") long idEtablissementRequete,
+            @PathVariable(value = "idSalle") long idSalle
+    ) {
+        String message;
+
+        Salle salleASupprimer = salleService.findById(idSalle);
+        long idEtablissementSalleDAO = salleASupprimer.getEtablissement().getIdEtablissement();
+        if (idEtablissementSalleDAO != idEtablissementRequete){
+            message = "Cette salle n'appartient pas à votre établissement.";
+        }
+        else {
+            salleService.delete(idSalle);
+            message = "Salle supprimée.";
+        }
+
         return message;
     }
 

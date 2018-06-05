@@ -27,7 +27,7 @@ public class Creneau implements java.io.Serializable {
     long dateDebut;
     long dateFin;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="id_salle")
     private Salle salle;
 

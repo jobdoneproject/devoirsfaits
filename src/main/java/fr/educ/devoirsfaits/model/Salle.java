@@ -16,7 +16,7 @@ public class Salle {
 
     String nom;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="id_etablissement")
     @JsonIgnore
     private Etablissement etablissement ;
