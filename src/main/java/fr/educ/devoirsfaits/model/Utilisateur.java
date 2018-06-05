@@ -48,9 +48,9 @@ public abstract class Utilisateur implements Serializable, UserDetails {
 
     public Utilisateur() { }
 
-    /*public void setIdUtilisateur(long idUtilisateur) {
+    public void setIdUtilisateur(long idUtilisateur) {
         this.idUtilisateur = idUtilisateur;
-    }*/
+    }
 
     public String getPassword() {
         return password;

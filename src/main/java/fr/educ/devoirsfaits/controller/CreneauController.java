@@ -34,13 +34,9 @@ public class CreneauController {
     ) {
         long[] weekBeginEndTimestamps = getWeekTimestampsFromYearAndId(year, week);
 
-        List<Creneau> creneauList = creneauRepository
-                .findByDateDebutAndDateFin(
-                        weekBeginEndTimestamps[0],
-                        weekBeginEndTimestamps[1]
-                );
+        List<Creneau> creneaux = creneauRepository.findByDateDebutAndDateFin(weekBeginEndTimestamps[0], weekBeginEndTimestamps[1]);
 
-        return creneauList;
+        return creneaux;
     }
 
 
@@ -61,32 +57,10 @@ public class CreneauController {
 
     @PostMapping("/{idEtab}/creneaux")
     public long createCreneau(@Valid @RequestBody Creneau creneau){
-
-        // TODO Ajout des utilisateurs ???
-
-        ObjectMapper mapper = new ObjectMapper();
-
-        try {
-            Creneau creneauJson = mapper.readValue(creneau.toString(), Creneau.class);
-            System.out.println(creneauJson);
-
-
-
-        } catch (JsonGenerationException e) {
-            e.printStackTrace();
-        } catch (JsonMappingException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
         creneauRepository.save(creneau);
 
         return creneau.getIdCreneau();
     }
-
-
 
     @DeleteMapping("/{idEtab}/creneaux/{idCreneau}")
     public ResponseEntity<?> deleteCreneaux(
@@ -100,26 +74,12 @@ public class CreneauController {
     }
 
 
-
     @PutMapping("/{idEtab}/creneaux/{idCreneau}")
-    public Creneau editCreneaux(
-            @Valid @RequestBody Creneau creneauPutted,
-            @PathVariable(value = "idEtab") Long etablissementId,
-            @PathVariable(value = "idCreneau") Long creneauId){
-
-        Creneau creneau = creneauRepository.findById(creneauId)
-                .orElseThrow(() -> new ResourceNotFoundException("Creneau", "id", creneauId));
-
-        creneau.setDateDebut(creneauPutted.getDateDebut());
-        creneau.setDateFin(creneauPutted.getDateFin());
-        creneau.setSalle(creneauPutted.getSalle());
+    public long updateCreneau(@Valid @RequestBody Creneau creneau){
         creneauRepository.save(creneau);
 
-        // TODO Faut-il renvoyer JSON Etablissement complet ?
-
-        return creneau;
+        return creneau.getIdCreneau();
     }
-
 
 
     private long[] getWeekTimestampsFromYearAndId(int year, int week){
