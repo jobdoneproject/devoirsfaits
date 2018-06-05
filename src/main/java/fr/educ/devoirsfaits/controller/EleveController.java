@@ -24,7 +24,7 @@ public class EleveController {
 
     // Get All By Etablissement
     @GetMapping("")
-    public List<Utilisateur> getAllByEtablissement(@PathVariable(value = "id") long idEtablissement) {
+    public List<Utilisateur> getAllByEtablissement(@PathVariable(value = "idEtablissement") long idEtablissement) {
 
         List<Utilisateur> eleves = utilisateurService.findAllByIdEtablissementAndPrivilege( idEtablissement,"Eleve");
 
