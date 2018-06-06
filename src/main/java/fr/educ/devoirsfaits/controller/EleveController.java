@@ -2,8 +2,6 @@ package fr.educ.devoirsfaits.controller;
 
 import fr.educ.devoirsfaits.model.Eleve;
 import fr.educ.devoirsfaits.model.Utilisateur;
-import fr.educ.devoirsfaits.repository.EleveRepository;
-import fr.educ.devoirsfaits.repository.EtablissementRepository;
 import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +48,19 @@ public class EleveController {
     }
 
     // Update
+    @PutMapping("")
+    public void updateAll( @Valid @RequestBody Eleve[] eleves) {
+
+        for (Eleve eleve: eleves) {
+
+            eleve = (Eleve) utilisateurService.update(eleve.getIdUtilisateur(), eleve);
+            eleve.setClasse(eleve.getClasse());
+
+            utilisateurService.save(eleve);
+        }
+    }
+
+    // Update
     @PutMapping("/{id}")
     public String update(@PathVariable(value = "id") Long idEleve,
                              @Valid @RequestBody Eleve eleveUpdate) {
@@ -63,7 +74,7 @@ public class EleveController {
     }
 
     //update disponible
-    @PutMapping("/disponible/{id}")
+    @PutMapping("/{id}/switch")
     public ResponseEntity<?> updateDisponibilite(@PathVariable(value = "id") Long idEleve){
         Eleve eleve = (Eleve) utilisateurService.find(idEleve);
 
@@ -81,4 +92,14 @@ public class EleveController {
     public void delete(@PathVariable(value = "id") Long idEleve) {
         utilisateurService.delete(idEleve);
     }
+
+    @Transactional
+    @DeleteMapping("")
+    public void deleteUsers(@Valid @RequestBody Eleve[] eleves) {
+        for (Eleve eleve: eleves) {
+            long idEleve = eleve.getIdUtilisateur();
+            utilisateurService.delete(idEleve);
+        }
+    }
+
 }

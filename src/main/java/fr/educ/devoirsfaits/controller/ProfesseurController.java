@@ -56,7 +56,7 @@ public class ProfesseurController {
     }
 
     //update disponible
-    @PutMapping("/{id}/disponible")
+    @PutMapping("/{id}/switch")
     public ResponseEntity<?> updateDisponibilite(@PathVariable(value = "id") Long idProfesseur){
         Professeur professeur = (Professeur) utilisateurService.find(idProfesseur);
 
