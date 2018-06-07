@@ -2,45 +2,48 @@ package fr.educ.devoirsfaits.controller;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.io.InputStreamReader;
 
 @Controller
+@CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
 public class UploadController {
     private static String UPLOADED_FOLDER = "/temp/";
 
     @PostMapping("/etablissements/{id}/eleves/import/")
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
-                                   @Param("id") long etablissementId,
-                                   RedirectAttributes redirectAttributes) {
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:uploadStatus";
+    public void singleFileUpload(@PathVariable(value= "id") long etablissementId,
+            @Valid @RequestBody MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            System.err.println("Pas de fichier uploadé ou vide !");
         }
 
+        BufferedReader reader = null;
+
         try {
-
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
-            Files.write(path, bytes);
-
-            /*redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "'");*/
-
-        } catch (IOException e) {
+            String currentLine = "";
+            reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+            while (currentLine != null) {
+                currentLine = reader.readLine();
+                ///////////////temporaire/////////////
+                System.out.println(currentLine);
+                ////////////////temporaire////////////////
+            }
+        } catch (IOException e){
             e.printStackTrace();
         }
 
-        return String.format("redirect:/etablissements/%d/eleves/uploadStatus", etablissementId);
+        try {
+            if (reader != null) {
+                reader.close();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @GetMapping("/etablissements/{id}/eleves/uploadStatus")
