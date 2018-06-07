@@ -77,4 +77,13 @@ public class ProfesseurController {
 
         return ResponseEntity.ok().build();
     }
+
+    @Transactional
+    @DeleteMapping("")
+    public void deleteUsers(@Valid @RequestBody Professeur[] professeurs) {
+        for (Professeur professeur: professeurs) {
+            long idProfesseur = professeur.getIdUtilisateur();
+            utilisateurService.delete(idProfesseur);
+        }
+    }
 }

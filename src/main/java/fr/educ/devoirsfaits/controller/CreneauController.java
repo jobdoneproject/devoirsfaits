@@ -17,7 +17,7 @@ import java.util.Calendar;
 import java.util.List;
 
 @RestController
-@RequestMapping("/etablissement")
+@RequestMapping("/etablissements")
 @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
 
 public class CreneauController {
