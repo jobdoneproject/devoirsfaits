@@ -1,5 +1,8 @@
 package fr.educ.devoirsfaits.controller;
 
+import fr.educ.devoirsfaits.model.Eleve;
+import fr.educ.devoirsfaits.service.UtilisateurService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -9,11 +12,21 @@ import javax.validation.Valid;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
 public class UploadController {
-    private static String UPLOADED_FOLDER = "/temp/";
+
+    private final static int INDEX_COLONNE_NOM = 0;
+    private final static int INDEX_COLONNE_PRENOM = 1;
+    private final static int INDEX_COLONNE_EMAIL = 2;
+    private final static int INDEX_COLONNE_MOT_DE_PASSE = 3;
+    private final static int INDEX_COLONNE_CLASSE = 4;
+
+    @Autowired
+    UtilisateurService utilisateurService;
 
     @PostMapping("/etablissements/{id}/eleves/import/")
     public void singleFileUpload(@PathVariable(value= "id") long etablissementId,
@@ -27,11 +40,12 @@ public class UploadController {
         try {
             String currentLine = "";
             reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+            reader.readLine(); // On évite la ligne d'en-tête
             while (currentLine != null) {
                 currentLine = reader.readLine();
-                ///////////////temporaire/////////////
-                System.out.println(currentLine);
-                ////////////////temporaire////////////////
+
+                Eleve eleveCourant = convertirEnEleve(currentLine, etablissementId);
+                utilisateurService.save(eleveCourant);
             }
         } catch (IOException e){
             e.printStackTrace();
@@ -44,6 +58,43 @@ public class UploadController {
         } catch (IOException e){
             e.printStackTrace();
         }
+    }
+
+    private Eleve convertirEnEleve(String currentLine, long etablissementId) {
+        String champsCSV [] = currentLine.split(",");
+        String nom = champsCSV[INDEX_COLONNE_NOM].toUpperCase();
+        String prenomMinuscule = champsCSV[INDEX_COLONNE_PRENOM].toLowerCase();
+        String classe = supprimerEspaces(champsCSV[INDEX_COLONNE_CLASSE]);
+        String email = champsCSV[INDEX_COLONNE_EMAIL];
+        String motDePasse = champsCSV[INDEX_COLONNE_MOT_DE_PASSE];
+
+        Eleve eleveToReturn = new Eleve();
+        eleveToReturn.setNom(nom);
+        eleveToReturn.setPrenom(capitalize(prenomMinuscule));
+        eleveToReturn.setClasse(classe);
+        eleveToReturn.setMail(email);
+        eleveToReturn.setPassword(motDePasse);
+        eleveToReturn.setIdEtablissement(etablissementId);
+
+        return eleveToReturn;
+    }
+
+    private String supprimerEspaces(String entree) {
+        StringBuilder stringToReturn = new StringBuilder();
+        for (char currentChar : entree.toCharArray()){
+            if (!Character.isSpaceChar(currentChar)) {
+                stringToReturn.append(currentChar);
+            }
+        }
+        return stringToReturn.toString();
+    }
+
+    private String capitalize(String input){
+        return String.format(
+                "%c%s",
+                input.toUpperCase().charAt(0),
+                input.toLowerCase().substring(1)
+        );
     }
 
     @GetMapping("/etablissements/{id}/eleves/uploadStatus")
