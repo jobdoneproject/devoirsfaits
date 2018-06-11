@@ -19,11 +19,11 @@ import java.util.stream.Collectors;
 @Entity
 @Table(name="creneau")
 @JsonDeserialize(using = CreneauDeserializer.class)
-public class Creneau implements java.io.Serializable {
+public class Creneau implements java.io.Serializable, Cloneable  {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    long idCreneau;
+    Long idCreneau;
     long dateDebut;
     long dateFin;
 
@@ -90,32 +90,27 @@ public class Creneau implements java.io.Serializable {
         );
     }
 
-    /*
-    @ManyToMany
-    @JoinTable(
-            name = "participant",
-            joinColumns = {@JoinColumn(name = "id_creneau")},
-            inverseJoinColumns = {@JoinColumn(name = "id_utilisateur")})
-    @Where(clause = "role = 'Professeur'")
-    Collection<Professeur> professeurs = new ArrayList<>();
-
-    public Collection<Professeur> getProfesseurs() {
-        return professeurs;
+   public Creneau clone() {
+        Object o = null;
+        try {
+            // On récupère l'instance à renvoyer par l'appel de la
+            // méthode super.clone()
+            o = super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            // Ne devrait jamais arriver car nous implémentons
+            // l'interface Cloneable
+            cnse.printStackTrace(System.err);
+        }
+        // on renvoie le clone
+        return (Creneau) o;
     }
 
-    public void setProfesseurs(Collection<Professeur> professeurs) {
-        this.professeurs = professeurs;
-    }
-*/
 
-
-
-
-    public long getIdCreneau() {
+    public Long getIdCreneau() {
         return idCreneau;
     }
 
-    public void setIdCreneau(long idCreneau) {
+    public void setIdCreneau(Long idCreneau) {
         this.idCreneau = idCreneau;
     }
 

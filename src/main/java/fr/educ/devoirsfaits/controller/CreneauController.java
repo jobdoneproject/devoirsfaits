@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.educ.devoirsfaits.model.Creneau;
 import fr.educ.devoirsfaits.repository.CreneauRepository;
+import fr.educ.devoirsfaits.service.CreneauService;
 import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,10 @@ public class CreneauController {
 
     @Autowired
     CreneauRepository creneauRepository;
+
+
+    @Autowired
+    CreneauService creneauService;
 
     // Get All creneau for selected week
     @GetMapping("/{id}/creneaux")
@@ -60,6 +65,15 @@ public class CreneauController {
         creneauRepository.save(creneau);
 
         return creneau.getIdCreneau();
+    }
+
+
+    @PostMapping("/{idEtab}/creneaux/duplication")
+    public void duplicateCreneau(@Valid @RequestBody Long[][] timestamps){
+        Long[] semainesADupliquer = timestamps[0];
+        Long[] semainesReceptrices = timestamps[1];
+
+         creneauService.duplicationSemaines(semainesADupliquer, semainesReceptrices);
     }
 
     @DeleteMapping("/{idEtab}/creneaux/{idCreneau}")
