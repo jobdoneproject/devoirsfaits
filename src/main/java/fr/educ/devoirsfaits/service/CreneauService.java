@@ -5,10 +5,7 @@ import fr.educ.devoirsfaits.repository.CreneauRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CreneauService {
@@ -47,7 +44,9 @@ public class CreneauService {
         long intervaleTimestamps = debutDeSemaineReceptrice - debutDeSemaineADupliquer;
 
         for (Creneau creneau: creneauADupliquer) {
-            Creneau creneauDuplique = (Creneau) creneau.clone();
+            Creneau creneauDuplique = new Creneau();//(Creneau) creneau.clone();
+            creneauDuplique.setElevesParticipant(creneau.getElevesParticipant());
+            creneauDuplique.setProfesseurs(creneau.getProfesseurs());
             creneauDuplique.setDateDebut(creneau.getDateDebut() + intervaleTimestamps);
             creneauDuplique.setDateFin(creneau.getDateFin() + intervaleTimestamps);
             creneauDuplique.setIdCreneau(null);
