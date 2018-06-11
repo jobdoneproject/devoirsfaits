@@ -12,8 +12,6 @@ import javax.validation.Valid;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
@@ -22,8 +20,7 @@ public class UploadController {
     private final static int INDEX_COLONNE_NOM = 0;
     private final static int INDEX_COLONNE_PRENOM = 1;
     private final static int INDEX_COLONNE_EMAIL = 2;
-    private final static int INDEX_COLONNE_MOT_DE_PASSE = 3;
-    private final static int INDEX_COLONNE_CLASSE = 4;
+    private final static int INDEX_COLONNE_CLASSE = 3;
 
     @Autowired
     UtilisateurService utilisateurService;
@@ -66,7 +63,7 @@ public class UploadController {
         String prenomMinuscule = champsCSV[INDEX_COLONNE_PRENOM].toLowerCase();
         String classe = supprimerEspaces(champsCSV[INDEX_COLONNE_CLASSE]);
         String email = champsCSV[INDEX_COLONNE_EMAIL];
-        String motDePasse = champsCSV[INDEX_COLONNE_MOT_DE_PASSE];
+        String motDePasse = "123";
 
         Eleve eleveToReturn = new Eleve();
         eleveToReturn.setNom(nom);

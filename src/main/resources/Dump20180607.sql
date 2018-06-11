@@ -1,4 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `devoirsfaits` /*!40100 DEFAULT CHARACTER SET utf8 */;
+  CREATE DATABASE  IF NOT EXISTS `devoirsfaits` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `devoirsfaits`;
 -- MySQL dump 10.13  Distrib 5.7.20, for Linux (x86_64)
 --

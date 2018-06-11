@@ -1,19 +1,16 @@
 package fr.educ.devoirsfaits.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import fr.educ.devoirsfaits.json.CreneauDeserializer;
 import fr.educ.devoirsfaits.json.ParticipantSerializer;
-import org.hibernate.annotations.Where;
 
-import javax.enterprise.inject.Produces;
 import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Entity
