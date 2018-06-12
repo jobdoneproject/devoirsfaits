@@ -33,7 +33,7 @@ public class CreneauService {
         for (long timestampSemaineReceptrice : TimestampSemainesReceptrices){
 
             duplicationCreneaux(timestampSemaineReceptrice, TimestampSemainesADupliquer[i], semainesCreneauxADupliquer.get(TimestampSemainesADupliquer[i]));
-            if (i < semainesCreneauxADupliquer.size()) i++;
+            if (i < semainesCreneauxADupliquer.size() - 1) i++;
             else i = 0;
         }
     }
@@ -49,6 +49,7 @@ public class CreneauService {
             creneauDuplique.setProfesseurs(creneau.getProfesseurs());
             creneauDuplique.setDateDebut(creneau.getDateDebut() + intervaleTimestamps);
             creneauDuplique.setDateFin(creneau.getDateFin() + intervaleTimestamps);
+            creneauDuplique.setSalle(creneau.getSalle());
             creneauDuplique.setIdCreneau(null);
 
             creneauRepository.save(creneauDuplique);
