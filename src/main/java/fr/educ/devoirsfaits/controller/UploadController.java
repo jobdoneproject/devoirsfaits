@@ -2,6 +2,7 @@ package fr.educ.devoirsfaits.controller;
 
 import fr.educ.devoirsfaits.model.Eleve;
 import fr.educ.devoirsfaits.model.Professeur;
+import fr.educ.devoirsfaits.model.Utilisateur;
 import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.function.BiFunction;
 
 @Controller
 @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
@@ -26,41 +28,59 @@ public class UploadController {
     @Autowired
     UtilisateurService utilisateurService;
 
+
+
     @PostMapping("/etablissements/{id}/eleves/import/")
-    public void singleFileUploadForEleves(@PathVariable(value= "id") long etablissementId,
+    public void uploadFileForEleves(@PathVariable(value= "id") long etablissementId,
             @Valid @RequestBody MultipartFile file) {
-        if (file == null || file.isEmpty()) {
-            System.err.println("Pas de fichier uploadé ou vide !");
-        }
-
-        BufferedReader reader = null;
-
-        try {
-            String currentLine = "";
-            reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
-            reader.readLine(); // On évite la ligne d'en-tête
-            while (currentLine != null) {
-                currentLine = reader.readLine();
-
-                Eleve eleveCourant = convertirEnEleve(currentLine, etablissementId);
-                utilisateurService.save(eleveCourant);
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-        }
-
-        try {
-            if (reader != null) {
-                reader.close();
-            }
-        } catch (IOException e){
-            e.printStackTrace();
-        }
+        uploadFileIntoUtlisateurs(etablissementId, file, (csvDataLine, idEtablissement) -> mapCsvToEleve(csvDataLine.split(","), idEtablissement));
     }
 
     @PostMapping("/etablissements/{id}/professeurs/import/")
-    public void singleFileUploadForProfesseurs(@PathVariable(value= "id") long etablissementId,
+    public void uploadFileForProfesseurs(@PathVariable(value= "id") long etablissementId,
                                           @Valid @RequestBody MultipartFile file) {
+        uploadFileIntoUtlisateurs(etablissementId, file, (csvDataLine, idEtablissement) -> mapCsvToProfesseur(csvDataLine.split(","), idEtablissement));
+    }
+
+    private <T extends Utilisateur> T mapCsvToUtilisateur(String[] csvData, long etablissementId, Class<T> typeUtilisateur){
+        String nom = csvData[INDEX_COLONNE_NOM].toUpperCase();
+        String prenomMinuscule = csvData[INDEX_COLONNE_PRENOM].toLowerCase();
+        String email = csvData[INDEX_COLONNE_EMAIL];
+        String motDePasse = "123";
+
+        T utilisateur = null;
+        try {
+            utilisateur = typeUtilisateur.newInstance();
+            utilisateur.setNom(nom);
+            utilisateur.setPrenom(capitalize(prenomMinuscule));
+            utilisateur.setMail(email);
+            utilisateur.setPassword(motDePasse);
+            utilisateur.setIdEtablissement(etablissementId);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+
+
+        return utilisateur;
+    }
+
+    private Eleve mapCsvToEleve(String[] csvData, long etablissementId) {
+        Eleve eleve = mapCsvToUtilisateur(csvData, etablissementId, Eleve.class);
+        String classe = supprimerEspaces(csvData[INDEX_COLONNE_CLASSE]);
+        eleve.setClasse(classe);
+
+        return eleve;
+    }
+
+    private Professeur mapCsvToProfesseur(String[] csvData, long etablissementId) {
+        Professeur professeur = mapCsvToUtilisateur(csvData, etablissementId, Professeur.class);
+        return professeur;
+    }
+
+    private void uploadFileIntoUtlisateurs(long etablissementId, MultipartFile file,
+                                           BiFunction<String, Long, Utilisateur> mapCsvToUtilisateur){
         if (file == null || file.isEmpty()) {
             System.err.println("Pas de fichier uploadé ou vide !");
         }
@@ -74,8 +94,8 @@ public class UploadController {
             while (currentLine != null) {
                 currentLine = reader.readLine();
 
-                Professeur professeurCourant = convertirEnProfesseur(currentLine, etablissementId);
-                utilisateurService.save(professeurCourant);
+                Utilisateur utilisateurCourant = mapCsvToUtilisateur.apply(currentLine, etablissementId);
+                utilisateurService.save(utilisateurCourant);
             }
         } catch (IOException e){
             e.printStackTrace();
@@ -88,43 +108,6 @@ public class UploadController {
         } catch (IOException e){
             e.printStackTrace();
         }
-    }
-
-
-    private Eleve convertirEnEleve(String currentLine, long etablissementId) {
-        String champsCSV [] = currentLine.split(",");
-        String nom = champsCSV[INDEX_COLONNE_NOM].toUpperCase();
-        String prenomMinuscule = champsCSV[INDEX_COLONNE_PRENOM].toLowerCase();
-        String classe = supprimerEspaces(champsCSV[INDEX_COLONNE_CLASSE]);
-        String email = champsCSV[INDEX_COLONNE_EMAIL];
-        String motDePasse = "123";
-
-        Eleve eleveToReturn = new Eleve();
-        eleveToReturn.setNom(nom);
-        eleveToReturn.setPrenom(capitalize(prenomMinuscule));
-        eleveToReturn.setClasse(classe);
-        eleveToReturn.setMail(email);
-        eleveToReturn.setPassword(motDePasse);
-        eleveToReturn.setIdEtablissement(etablissementId);
-
-        return eleveToReturn;
-    }
-
-    private Professeur convertirEnProfesseur(String currentLine, long etablissementId) {
-        String champsCSV [] = currentLine.split(",");
-        String nom = champsCSV[INDEX_COLONNE_NOM].toUpperCase();
-        String prenomMinuscule = champsCSV[INDEX_COLONNE_PRENOM].toLowerCase();
-        String email = champsCSV[INDEX_COLONNE_EMAIL];
-        String motDePasse = "123";
-
-        Professeur professeurToReturn = new Professeur();
-        professeurToReturn.setNom(nom);
-        professeurToReturn.setPrenom(capitalize(prenomMinuscule));
-        professeurToReturn.setMail(email);
-        professeurToReturn.setPassword(motDePasse);
-        professeurToReturn.setIdEtablissement(etablissementId);
-
-        return professeurToReturn;
     }
 
     private String supprimerEspaces(String entree) {
@@ -143,13 +126,6 @@ public class UploadController {
                 input.toUpperCase().charAt(0),
                 input.toLowerCase().substring(1)
         );
-    }
-
-    @GetMapping("/etablissements/{id}/eleves/uploadStatus")
-    public String uploadStatus(
-            @Param("id") long etablissementId
-    ) {
-        return String.format("/etablissements/%d/eleves/uploadStatus", etablissementId);
     }
 
 }
