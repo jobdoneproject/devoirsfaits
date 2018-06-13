@@ -1,8 +1,8 @@
 package fr.educ.devoirsfaits.controller;
 
 
-import fr.educ.devoirsfaits.model.Utilisateur;
 import fr.educ.devoirsfaits.model.Professeur;
+import fr.educ.devoirsfaits.model.Utilisateur;
 import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
