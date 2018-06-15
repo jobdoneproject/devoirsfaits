@@ -1,5 +1,7 @@
 package fr.educ.devoirsfaits.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -13,28 +15,36 @@ public class Message implements Serializable {
 
     private String contenu;
 
-    private Utilisateur eleve;
+
+    @OneToOne
+    @JoinColumn(name="id_Eleve")
+    //@JsonIgnore
+    private Eleve eleve;
 
     private Date dateMessage;
 
-    private Utilisateur redacteur;
+    @OneToOne
+    @JoinColumn(name="id_Utilisateur")
+    //@JsonIgnore
+    private Utilisateur utilisateur;
 
-    public Message(String contenu, Utilisateur eleve, Date dateMessage, Utilisateur redacteur) {
+    public Message() {
+    }
+
+    public Message(String contenu, Eleve eleve, Date dateMessage, Utilisateur utilisateur) {
         this.contenu = contenu;
         this.eleve = eleve;
         this.dateMessage = dateMessage;
-        this.redacteur = redacteur;
+        //this.utilisateur = utilisateur;
     }
-
-    public Message() { }
 
     public long getIdMessage() {
         return idMessage;
     }
 
-    /*public void setIdMessage(long idMessage) {
+    public void setIdMessage(long idMessage) {
         this.idMessage = idMessage;
-    }*/
+    }
 
     public String getContenu() {
         return contenu;
@@ -44,11 +54,11 @@ public class Message implements Serializable {
         this.contenu = contenu;
     }
 
-    public Utilisateur getEleve() {
+    public Eleve getEleve() {
         return eleve;
     }
 
-    public void setEleve(Utilisateur eleve) {
+    public void setEleve(Eleve eleve) {
         this.eleve = eleve;
     }
 
@@ -60,11 +70,11 @@ public class Message implements Serializable {
         this.dateMessage = dateMessage;
     }
 
-    public Utilisateur getRedacteur() {
-        return redacteur;
+    public Utilisateur getUtilisateur() {
+        return utilisateur;
     }
 
-    public void setRedacteur(Utilisateur redacteur) {
-        this.redacteur = redacteur;
+    public void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 }
