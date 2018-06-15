@@ -48,7 +48,7 @@ public class UploadController {
         String nom = csvData[INDEX_COLONNE_NOM].toUpperCase();
         String prenomMinuscule = csvData[INDEX_COLONNE_PRENOM].toLowerCase();
         String email = csvData[INDEX_COLONNE_EMAIL];
-        String motDePasse = "123";
+        String motDePasse = null;
 
         T utilisateur = null;
         try {
