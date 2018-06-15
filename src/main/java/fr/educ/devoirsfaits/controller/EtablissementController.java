@@ -1,9 +1,9 @@
 package fr.educ.devoirsfaits.controller;
 
-import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
 import fr.educ.devoirsfaits.model.Etablissement;
 import fr.educ.devoirsfaits.repository.AdministrateurRepository;
 import fr.educ.devoirsfaits.repository.EtablissementRepository;
+import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

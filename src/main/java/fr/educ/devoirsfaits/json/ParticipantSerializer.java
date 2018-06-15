@@ -1,10 +1,8 @@
 package fr.educ.devoirsfaits.json;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
-import fr.educ.devoirsfaits.model.Eleve;
 import fr.educ.devoirsfaits.model.Utilisateur;
 
 import java.io.IOException;

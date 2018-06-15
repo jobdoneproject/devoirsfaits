@@ -2,6 +2,7 @@ package fr.educ.devoirsfaits.controller;
 
 
 import fr.educ.devoirsfaits.model.Message;
+import fr.educ.devoirsfaits.model.Professeur;
 import fr.educ.devoirsfaits.model.Utilisateur;
 import fr.educ.devoirsfaits.repository.MessageRepository;
 import fr.educ.devoirsfaits.service.MessageService;
@@ -43,7 +44,7 @@ public class MessageController {
         String privilege = message.getUtilisateur().getPrivilege();
 
         if (privilege == "professeur"){
-            
+            T utilisateur = new Professeur() ;
         }
         T =
 

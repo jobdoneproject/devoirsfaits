@@ -6,7 +6,6 @@ import fr.educ.devoirsfaits.model.Salle;
 import fr.educ.devoirsfaits.service.EtablissementService;
 import fr.educ.devoirsfaits.service.SalleService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 

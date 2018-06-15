@@ -1,6 +1,5 @@
 package fr.educ.devoirsfaits.service;
 
-import fr.educ.devoirsfaits.model.Eleve;
 import fr.educ.devoirsfaits.model.Salle;
 import fr.educ.devoirsfaits.repository.SalleRepository;
 import fr.educ.devoirsfaits.utils.ResourceNotFoundException;
