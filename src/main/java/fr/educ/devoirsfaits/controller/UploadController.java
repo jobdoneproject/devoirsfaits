@@ -5,9 +5,11 @@ import fr.educ.devoirsfaits.model.Professeur;
 import fr.educ.devoirsfaits.model.Utilisateur;
 import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -93,9 +95,14 @@ public class UploadController {
             reader.readLine(); // On évite la ligne d'en-tête
             while (currentLine != null) {
                 currentLine = reader.readLine();
-
-                Utilisateur utilisateurCourant = mapCsvToUtilisateur.apply(currentLine, etablissementId);
-                utilisateurService.save(utilisateurCourant);
+                try {
+                    Utilisateur utilisateurCourant = mapCsvToUtilisateur.apply(currentLine, etablissementId);
+                    utilisateurService.save(utilisateurCourant);
+                }
+                catch (NullPointerException e){
+                    // L'utilisateur existe déjà : nous l'ignorons donc
+                    e.printStackTrace();
+                }
             }
         } catch (IOException e){
             e.printStackTrace();
