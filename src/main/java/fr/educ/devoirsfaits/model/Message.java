@@ -1,6 +1,8 @@
 package fr.educ.devoirsfaits.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import fr.educ.devoirsfaits.json.MessageDeserializer;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -8,13 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.Date;
 
 @Entity
+@JsonDeserialize(using = MessageDeserializer.class)
 public class Message implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @JsonIgnore
     private long idMessage;
 
     private String contenu;
@@ -25,21 +28,21 @@ public class Message implements Serializable {
     //@JsonIgnore
     private Eleve eleve;
 
-    private Date dateMessage;
+    private long dateMessage;
 
     @OneToOne
     @JoinColumn(name="id_Utilisateur")
     //@JsonIgnore
-    private Utilisateur utilisateur;
+    private Utilisateur redacteur;
 
     public Message() {
     }
 
-    public Message(String contenu, Eleve eleve, Date dateMessage, Utilisateur utilisateur) {
+    public Message(String contenu, Eleve eleve, long dateMessage, Utilisateur redacteur) {
         this.contenu = contenu;
         this.eleve = eleve;
         this.dateMessage = dateMessage;
-        //this.utilisateur = utilisateur;
+        this.redacteur = redacteur;
     }
 
     public long getIdMessage() {
@@ -66,19 +69,19 @@ public class Message implements Serializable {
         this.eleve = eleve;
     }
 
-    public Date getDateMessage() {
+    public long getDateMessage() {
         return dateMessage;
     }
 
-    public void setDateMessage(Date dateMessage) {
+    public void setDateMessage(long dateMessage) {
         this.dateMessage = dateMessage;
     }
 
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
+    public Utilisateur getRedacteur() {
+        return redacteur;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
+    public void setRedacteur(Utilisateur redacteur) {
+        this.redacteur = redacteur;
     }
 }

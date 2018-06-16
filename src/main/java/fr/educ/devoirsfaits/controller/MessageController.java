@@ -15,7 +15,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/etablissements/{idEtab}/messages")
+@RequestMapping("/etablissements/messages")
 @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
 public class MessageController {
 
@@ -28,7 +28,6 @@ public class MessageController {
     // Get a Single
     @GetMapping("/{id}")
     public Message getById(@PathVariable(value = "id") long idMessage) {
-        System.out.println("");
         return messageRepository.findById(idMessage)
                 .orElseThrow(() -> new ResourceNotFoundException("Message", "id", idMessage));
     }
@@ -40,16 +39,8 @@ public class MessageController {
     }
 
     @PostMapping("")
-    public <T extends Utilisateur> String createMessage(@Valid @RequestBody Message message){
-        String privilege = message.getUtilisateur().getPrivilege();
+    public String createMessage(@Valid @RequestBody Message message){
 
-        if (privilege == "professeur"){
-            T utilisateur = new Professeur() ;
-        }
-        T =
-
-
-        System.out.println("00");
         return messageService.save(message);
 
     }

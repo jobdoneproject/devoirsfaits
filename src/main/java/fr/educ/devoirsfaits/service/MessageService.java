@@ -1,7 +1,6 @@
 package fr.educ.devoirsfaits.service;
 
 import fr.educ.devoirsfaits.model.Message;
-import fr.educ.devoirsfaits.model.Utilisateur;
 import fr.educ.devoirsfaits.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,6 @@ public class MessageService {
 
     @Autowired
     private MessageRepository messageRepository;
-
-    @Autowired
-    UtilisateurService utilisateurService;
 
     public String save(Message message){
         String messageErreur;
@@ -33,10 +29,6 @@ public class MessageService {
     public List<Message> BuildAllMessagesForEleve(long idEleve){
 
         List<Message> messages = messageRepository.findAllByEleve_IdUtilisateur(idEleve);
-
-        /*for (Message message: messages ) {
-            Utilisateur professeur = utilisateurService.find(message.getRedacteur());
-        }*/
 
 
         return messages;
