@@ -8,9 +8,7 @@ import fr.educ.devoirsfaits.json.CreneauDeserializer;
 import fr.educ.devoirsfaits.json.ParticipantSerializer;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -51,7 +49,7 @@ public class Creneau implements java.io.Serializable, Cloneable  {
     @JsonSerialize(using = ParticipantSerializer.class)
     @JsonProperty("eleves")
     public Map<Eleve,Boolean> getElevesParticipant() {
-        Map<Eleve,Boolean> elevesParticipant = new HashMap<>();
+        Map<Eleve,Boolean> elevesParticipant = new TreeMap<>();
         for (Map.Entry<Utilisateur, Boolean> p : participantsWithPresence.entrySet()) {
             if (p.getKey() instanceof  Eleve) {
                 elevesParticipant.put((Eleve) p.getKey(), p.getValue());
