@@ -14,7 +14,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "utilisateur")
 @PrimaryKeyJoinColumn(name = "id")
-public class Professeur extends Utilisateur {
+public class Professeur extends Utilisateur implements Comparable<Professeur>{
 
     public Professeur() {
     }
@@ -37,5 +37,14 @@ public class Professeur extends Utilisateur {
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("Professeur"));
         return authorities;
+    }
+
+    @Override
+    public int compareTo(Professeur o) {
+        int comparison = 0;
+        if(o != null) {
+            comparison = this.getNom().compareTo(o.getNom());
+        }
+        return comparison;
     }
 }
