@@ -1,43 +1,57 @@
 package fr.educ.devoirsfaits.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import fr.educ.devoirsfaits.json.MessageDeserializer;
+
+import javax.persistence.*;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
-import java.util.Date;
 
 @Entity
+@JsonDeserialize(using = MessageDeserializer.class)
 public class Message implements Serializable {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @JsonIgnore
     private long idMessage;
 
     private String contenu;
 
-    private Utilisateur eleve;
 
-    private Date dateMessage;
+    @OneToOne
+    @JoinColumn(name="id_Eleve")
+    //@JsonIgnore
+    private Eleve eleve;
 
+    private long dateMessage;
+
+    @OneToOne
+    @JoinColumn(name="id_Utilisateur")
+    //@JsonIgnore
     private Utilisateur redacteur;
 
-    public Message(String contenu, Utilisateur eleve, Date dateMessage, Utilisateur redacteur) {
+    public Message() {
+    }
+
+    public Message(String contenu, Eleve eleve, long dateMessage, Utilisateur redacteur) {
         this.contenu = contenu;
         this.eleve = eleve;
         this.dateMessage = dateMessage;
         this.redacteur = redacteur;
     }
 
-    public Message() { }
-
     public long getIdMessage() {
         return idMessage;
     }
 
-    /*public void setIdMessage(long idMessage) {
+    public void setIdMessage(long idMessage) {
         this.idMessage = idMessage;
-    }*/
+    }
 
     public String getContenu() {
         return contenu;
@@ -47,19 +61,19 @@ public class Message implements Serializable {
         this.contenu = contenu;
     }
 
-    public Utilisateur getEleve() {
+    public Eleve getEleve() {
         return eleve;
     }
 
-    public void setEleve(Utilisateur eleve) {
+    public void setEleve(Eleve eleve) {
         this.eleve = eleve;
     }
 
-    public Date getDateMessage() {
+    public long getDateMessage() {
         return dateMessage;
     }
 
-    public void setDateMessage(Date dateMessage) {
+    public void setDateMessage(long dateMessage) {
         this.dateMessage = dateMessage;
     }
 
