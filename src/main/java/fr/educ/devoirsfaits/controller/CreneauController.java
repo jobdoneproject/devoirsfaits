@@ -11,10 +11,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 @RestController
-@RequestMapping("/etablissements")
+@RequestMapping("/etablissements/{idEtab}")
 @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
 
 public class CreneauController {
@@ -27,9 +28,9 @@ public class CreneauController {
     CreneauService creneauService;
 
     // Get All creneau for selected week
-    @GetMapping("/{id}/creneaux")
+    @GetMapping("/creneaux")
     public List<Creneau> getWeekCreneaux(
-            @PathVariable(value = "id") Long etablissementId,
+            @PathVariable(value = "idEtab") Long etablissementId,
             @RequestParam(value="year", required=true) int year,
             @RequestParam(value="week", required=true) int week
     ) {
@@ -37,12 +38,19 @@ public class CreneauController {
 
         List<Creneau> creneaux = creneauRepository.findByDateDebutAndDateFin(weekBeginEndTimestamps[0], weekBeginEndTimestamps[1]);
 
+        for (Iterator<Creneau> iterator = creneaux.iterator(); iterator.hasNext();) {
+            Creneau creneau = iterator.next();
+            if (creneau.getSalle().getEtablissement().getIdEtablissement() != etablissementId){
+                iterator.remove();
+            }
+        }
+
         return creneaux;
     }
 
 
 
-    @GetMapping("/{idEtab}/creneaux/{idCreneau}")
+    @GetMapping("/creneaux/{idCreneau}")
     public Creneau getCreneauxById(
             @PathVariable(value = "idEtab") Long etablissementId,
             @PathVariable(value = "idCreneau") Long creneauId
@@ -56,7 +64,7 @@ public class CreneauController {
 
 
 
-    @PostMapping("/{idEtab}/creneaux")
+    @PostMapping("/creneaux")
     public long createCreneau(@Valid @RequestBody Creneau creneau){
         creneauRepository.save(creneau);
 
@@ -64,7 +72,7 @@ public class CreneauController {
     }
 
 
-    @PostMapping("/{idEtab}/creneaux/duplication")
+    @PostMapping("/creneaux/duplication")
     public void duplicateCreneau(@Valid @RequestBody Long[][] timestamps){
         Long[] semainesADupliquer = timestamps[0];
         Long[] semainesReceptrices = timestamps[1];
@@ -72,7 +80,7 @@ public class CreneauController {
          creneauService.duplicationSemaines(semainesADupliquer, semainesReceptrices);
     }
 
-    @DeleteMapping("/{idEtab}/creneaux/{idCreneau}")
+    @DeleteMapping("/creneaux/{idCreneau}")
     public ResponseEntity<?> deleteCreneaux(
             @PathVariable(value = "idEtab") Long etablissementId,
             @PathVariable(value = "idCreneau") Long creneauId){
@@ -84,7 +92,7 @@ public class CreneauController {
     }
 
 
-    @PutMapping("/{idEtab}/creneaux/{idCreneau}")
+    @PutMapping("/creneaux/{idCreneau}")
     public long updateCreneau(@Valid @RequestBody Creneau creneau){
         creneauRepository.save(creneau);
 

@@ -32,13 +32,14 @@ public class MessageController {
 
     // get tous les messages d'un eleve
     @GetMapping("/eleves/{id}")
-    public List<Message> getAll(@PathVariable(value = "id") long idEleve) {
+    public List<Message> getAllByEleve(@PathVariable(value = "id") long idEleve) {
         return  messageService.BuildAllMessagesForEleve(idEleve);
     }
 
     @PostMapping("")
     public String createMessage(@Valid @RequestBody Message message){
 
+        System.out.println("stop");
         return messageService.save(message);
 
     }
