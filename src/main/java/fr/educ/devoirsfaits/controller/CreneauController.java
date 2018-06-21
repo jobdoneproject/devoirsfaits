@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @RestController
@@ -21,7 +23,6 @@ public class CreneauController {
 
     @Autowired
     CreneauRepository creneauRepository;
-
 
     @Autowired
     CreneauService creneauService;
@@ -37,6 +38,7 @@ public class CreneauController {
 
         List<Creneau> creneaux = creneauRepository.findByDateDebutAndDateFin(weekBeginEndTimestamps[0], weekBeginEndTimestamps[1]);
 
+        Collections.sort(creneaux, Comparator.comparingLong(Creneau::getDateDebut));
         return creneaux;
     }
 
