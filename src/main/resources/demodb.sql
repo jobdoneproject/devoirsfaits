@@ -105,7 +105,7 @@ CREATE TABLE `message` (
   `id_message` int(11) NOT NULL AUTO_INCREMENT,
   `contenu` text,
   `id_eleve` int(11) DEFAULT NULL,
-  `date_message` date DEFAULT NULL,
+  `date_message` int(11) DEFAULT NULL,
   `id_utilisateur` int(11) NOT NULL,
   PRIMARY KEY (`id_message`),
   KEY `FK_Message_id_utilisateur` (`id_utilisateur`),
