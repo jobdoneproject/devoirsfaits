@@ -33,7 +33,7 @@ public class MessageDeserializer extends JsonDeserializer<Message> {
         Eleve eleve = (Eleve) utilisateurService.find(eleveNode.get("idUtilisateur").asLong());
         message.setEleve(eleve);
 
-        JsonNode redacteurNode = node.get("utilisateur");
+        JsonNode redacteurNode = node.get("redacteur");
         Utilisateur redacteur = utilisateurService.find(redacteurNode.get("idUtilisateur").asLong());
         message.setRedacteur(redacteur);
 

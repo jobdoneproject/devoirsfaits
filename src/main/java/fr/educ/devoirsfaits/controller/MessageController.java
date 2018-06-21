@@ -37,10 +37,9 @@ public class MessageController {
     }
 
     @PostMapping("")
-    public String createMessage(@Valid @RequestBody Message message){
-
-        return messageService.save(message);
-
+    public Message createMessage(@Valid @RequestBody Message message){
+        messageService.save(message);
+        return message;
     }
 
     @DeleteMapping("/{id}")
