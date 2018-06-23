@@ -4,6 +4,7 @@
 -- ------------------------------------------------------
 -- Server version	8.0.11
 
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -19,8 +20,17 @@
 --
 -- Table structure for table `etablissement`
 --
-
+DROP TABLE IF EXISTS `relations_groupes`;
+DROP TABLE IF EXISTS `reference`;
+DROP TABLE IF EXISTS `participant`;
+DROP TABLE IF EXISTS `message`;
+DROP TABLE IF EXISTS `groupe`;
+DROP TABLE IF EXISTS `creneau`;
+DROP TABLE IF EXISTS `utilisateur`;
+DROP TABLE IF EXISTS `salle`;
 DROP TABLE IF EXISTS `etablissement`;
+
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `etablissement` (
@@ -40,7 +50,6 @@ CREATE TABLE `etablissement` (
 -- Table structure for table `salle`
 --
 
-DROP TABLE IF EXISTS `salle`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `salle` (
@@ -60,7 +69,6 @@ CREATE TABLE `salle` (
 -- Table structure for table `utilisateur`
 --
 
-DROP TABLE IF EXISTS `utilisateur`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `utilisateur` (
@@ -88,7 +96,8 @@ CREATE TABLE `utilisateur` (
 -- Table structure for table `creneau`
 --
 
-DROP TABLE IF EXISTS `creneau`;
+
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `creneau` (
@@ -107,7 +116,7 @@ CREATE TABLE `creneau` (
 -- Table structure for table `groupe`
 --
 
-DROP TABLE IF EXISTS `groupe`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `groupe` (
@@ -122,7 +131,6 @@ CREATE TABLE `groupe` (
 -- Table structure for table `message`
 --
 
-DROP TABLE IF EXISTS `message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `message` (
@@ -140,7 +148,7 @@ CREATE TABLE `message` (
 -- Table structure for table `participant`
 --
 
-DROP TABLE IF EXISTS `participant`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `participant` (
@@ -159,7 +167,6 @@ CREATE TABLE `participant` (
 -- Table structure for table `reference`
 --
 
-DROP TABLE IF EXISTS `reference`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `reference` (
@@ -176,7 +183,7 @@ CREATE TABLE `reference` (
 -- Table structure for table `relations_groupes`
 --
 
-DROP TABLE IF EXISTS `relations_groupes`;
+
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
  SET character_set_client = utf8mb4 ;
 CREATE TABLE `relations_groupes` (
