@@ -1,0 +1,9 @@
+{
+   "build": {
+      "type": "maven",
+      "goal": "clean package -Pprod -DskipTests"
+   },
+   "deploy": {
+      "jarName": "target/myapp-0.0.1-SNAPSHOT.war"
+   }
+}

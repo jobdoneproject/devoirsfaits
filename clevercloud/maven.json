@@ -4,6 +4,6 @@
       "goal": "-Dmaven.test.skip=true -Dspring.profiles.active=staging -Dmaven.test.failure.ignore clean package"
     },
     "deploy": {
-      "goal": "-Dtest.active=false"
+      "goal": "-Dmaven.test.skip=true -Dspring.profiles.active=staging -Dmaven.test.failure.ignore clean package"
     }
   }
