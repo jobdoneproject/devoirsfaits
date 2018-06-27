@@ -3,6 +3,7 @@
 -- Host: localhost    Database: devoirsfaits
 -- ------------------------------------------------------
 -- Server version	8.0.11
+CREATE DATABASE `devoirsfaits` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */;
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
