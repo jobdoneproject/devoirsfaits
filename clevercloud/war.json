@@ -8,7 +8,8 @@
     "war": [
         {
             "file": "target/devoirsfaits-0.0.1-SNAPSHOT.war",
-            "context": "/devoirsfaits"
+            "context": "/devoirsfaits",
+            "checkMe": "/devoirsfaits/login"
         }
     }
 }
