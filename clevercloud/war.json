@@ -6,9 +6,9 @@
    "deploy": {
     "container": "TOMCAT8",
     "war": [
-       {
-          "file": "target/devoirsfaits-0.0.1-SNAPSHOT.war",
-          "context": "/devoirsfaits"
-       }       
-   }
+        {
+            "file": "target/devoirsfaits-0.0.1-SNAPSHOT.war",
+            "context": "/devoirsfaits"
+        }
+    }
 }
