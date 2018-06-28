@@ -1,15 +1,14 @@
 {
    "build": {
       "type": "maven",
-      "goal": "clean package -Pstaging -DskipTests"
+      "goal": "clean package -Pstaging -DskipTests -Dspring.profiles.active=staging"
    },
    "deploy": {
     "container": "TOMCAT8",
     "war": [
         {
             "file": "target/devoirsfaits-0.0.1-SNAPSHOT.war",
-            "context": "/devoirsfaits",
-            "checkMe": "/devoirsfaits/login"
+            "context": "/devoirsfaits"
         }
     ]
     }
