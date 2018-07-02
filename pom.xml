@@ -5,6 +5,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<warname>devoirsfaits</warname>
+		<tomcatLocalOutputDirectory>C:\Tomcat9.0\webapps</tomcatLocalOutputDirectory>
         <!-- Logging -->
         <logback.version>1.0.13</logback.version>
         <!-- <slf4j.version>1.7.5</slf4j.version> -->
@@ -142,7 +144,19 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>			
+			</plugin>
+		<plugin>
+			<groupId>org.apache.tomcat.maven</groupId>
+			<artifactId>tomcat7-maven-plugin</artifactId>
+			<version>2.2</version>
+			<configuration>
+				<url>http://localhost:8080/manager/text</url>
+				<server>TomcatServer</server>
+            	<path>/${project.artifactId}</path>
+				<!-- <username>admin2</username>
+				<password>not_real_pass</password> -->
+			</configuration>
+		</plugin>							
 		</plugins>
 
 		<resources>
