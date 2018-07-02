@@ -1,7 +1,7 @@
 {
    "build": {
       "type": "maven",
-      "goal": "clean package -Pstaging -DskipTests -Dspring.profiles.active=staging"
+      "goal": "clean package -Pstaging -DskipTests -Dspring.profiles.active=staging TOMCAT8:deploy"
    },
    "deploy": {
     "container": "TOMCAT8",
