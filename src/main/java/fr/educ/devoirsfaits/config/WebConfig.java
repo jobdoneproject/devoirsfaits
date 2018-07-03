@@ -49,7 +49,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .allowedOrigins("http://localhost:8080")
                 .allowedOrigins("http://206.189.126.80")
                 .allowedOrigins("http://app-28286c7a-6571-43b1-96b0-6352d129ffdd.cleverapps.io")
-                .allowedOrigins("http://app-28286c7a-6571-43b1-96b0-6352d129ffdd.cleverapps.io/devoirsfaits");  
+                .allowedOrigins("http://app-28286c7a-6571-43b1-96b0-6352d129ffdd.cleverapps.io/devoirsfaits/");  
             }
         };
     }

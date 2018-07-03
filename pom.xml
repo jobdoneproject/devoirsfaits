@@ -155,8 +155,40 @@
             	<path>/${project.artifactId}</path>
 				<!-- <username>admin2</username>
 				<password>not_real_pass</password> -->
+                <httpsPort>8443</httpsPort>
+                <keystoreFile>${project.build.directory}/apiForTomcat7Container.keystore</keystoreFile>
+                <keystorePass>tomcat7</keystorePass>				
 			</configuration>
-		</plugin>							
+		</plugin>
+		<plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>keytool-maven-plugin</artifactId>
+            <version>1.5</version>
+            <executions>
+                <execution>
+                    <phase>generate-resources</phase>
+                    <id>clean</id>
+                    <goals>
+                        <goal>clean</goal>
+                    </goals>
+                </execution>
+                <execution>
+                    <phase>generate-resources</phase>
+                    <id>genkey</id>
+                    <goals>
+                        <goal>generateKeyPair</goal>
+                    </goals>
+                </execution>
+            </executions>
+            <configuration>
+                <keystore>${project.build.directory}/apiForTomcat7Container.keystore</keystore>
+                <dname>cn=localhost</dname>
+                <keypass>tomcat7</keypass>
+                <storepass>tomcat7</storepass>
+                <alias>tomcat7ssl</alias>
+                <keyalg>RSA</keyalg>
+            </configuration>
+        </plugin>
 		</plugins>
 
 		<resources>
