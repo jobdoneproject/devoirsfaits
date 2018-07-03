@@ -51,9 +51,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 .allowedOrigins("http://app-f4ff65e9-499f-4997-b3f3-15b3f90cc4c9.cleverapps.io")
                 .allowedOrigins("http://app-28286c7a-6571-43b1-96b0-6352d129ffdd.cleverapps.io")
                 .allowedMethods("POST, GET, OPTIONS, DELETE, PUT")
-                .allowCredentials(true),
-                .allowedHeaders("x-requested-with, Content-Type, origin, authorization, accept, client-security-token");
-                
+                .allowCredentials(true)
+                .allowedHeaders("x-requested-with, Content-Type, origin, authorization, accept, client-security-token");                
             }
         };
     }
