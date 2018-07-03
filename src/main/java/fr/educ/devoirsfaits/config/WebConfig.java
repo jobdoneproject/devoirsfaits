@@ -45,12 +45,11 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurerAdapter() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                // registry.addMapping("/**").allowedOrigins("http://localhost:4200")
-                // .allowedOrigins("http://localhost:8080")
-                // .allowedOrigins("http://206.189.126.80")
-                // .allowedOrigins("http://app-f4ff65e9-499f-4997-b3f3-15b3f90cc4c9.cleverapps.io")
-                // .allowedOrigins("http://app-28286c7a-6571-43b1-96b0-6352d129ffdd.cleverapps.io");  
-                registry.addMapping("/**");                           
+                registry.addMapping("/**").allowedOrigins("http://localhost:4200")
+                .allowedOrigins("http://localhost:8080")
+                .allowedOrigins("http://206.189.126.80")
+                .allowedOrigins("http://app-28286c7a-6571-43b1-96b0-6352d129ffdd.cleverapps.io")
+                .allowedOrigins("http://app-28286c7a-6571-43b1-96b0-6352d129ffdd.cleverapps.io/devoirsfaits");  
             }
         };
     }
