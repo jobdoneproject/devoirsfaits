@@ -67,7 +67,7 @@ public class AccoutController {
     @CrossOrigin
     @RequestMapping("/login")
     public Principal user(Principal principal) {
-        logger.info("user logged "+principal);
+        logger.info("user logged in: "+principal.getName());
         return principal;
     }
 

@@ -96,7 +96,7 @@ public class AdministrateurController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable(value = "id") Long administrateurId) {
         Administrateur administrateur = administrateurRepository.findById(administrateurId)
-                .orElseThrow(() -> new ResourceNotFoundException("Administrateur", "id", administrateurId));
+                .orElseThrow(() -> new ResourceNotFoundException("Administrateur with id ", "id", administrateurId));
 
         administrateurRepository.delete(administrateur);
 
