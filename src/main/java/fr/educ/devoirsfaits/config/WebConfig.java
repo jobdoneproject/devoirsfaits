@@ -49,7 +49,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**").allowedOrigins("http://localhost:4200")
                 .allowedOrigins("http://localhost:8080")
-                .allowedOrigins("http://206.189.126.80")
+                .allowedOrigins("http://206.189.126.80").allowedHeaders("*").allowedMethods("*")
                 .allowedOrigins("https://app-f4ff65e9-499f-4997-b3f3-15b3f90cc4c9.cleverapps.io").allowedHeaders("*").allowedMethods("*").allowCredentials(true)
                 .allowedOrigins("https://devoirsfaits-demo.cleverapps.io").allowedHeaders("*").allowedMethods("*").allowCredentials(true);  
                 .allowedOrigins("http://app-f4ff65e9-499f-4997-b3f3-15b3f90cc4c9.cleverapps.io").allowedHeaders("*").allowedMethods("*").allowCredentials(true)
