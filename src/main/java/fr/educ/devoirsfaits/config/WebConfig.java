@@ -4,8 +4,10 @@ import fr.educ.devoirsfaits.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -48,8 +50,8 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 registry.addMapping("/**").allowedOrigins("http://localhost:4200")
                 .allowedOrigins("http://localhost:8080")
                 .allowedOrigins("http://206.189.126.80")
-                .allowedOrigins("https://app-f4ff65e9-499f-4997-b3f3-15b3f90cc4c9.cleverapps.io")
-                .allowedOrigins("https://devoirsfaits-demo.cleverapps.io");
+                .allowedOrigins("https://app-f4ff65e9-499f-4997-b3f3-15b3f90cc4c9.cleverapps.io").allowedHeaders("*").allowedMethods("*").allowCredentials(true)
+                .allowedOrigins("https://devoirsfaits-demo.cleverapps.io").allowedHeaders("*").allowedMethods("*").allowCredentials(true);
             }
         };
     }
@@ -68,7 +70,6 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     // We can specify our authorization criteria inside this method.
     @Override
     protected void configure(HttpSecurity https) throws Exception {
-
 
         https.cors().and()
                 // starts authorizing configurations
@@ -90,6 +91,13 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 // disabling the CSRF - Cross Site Request Forgery
                 .csrf().disable();
 
+    }
+
+    //Rajout RL 201807
+    //https://spring.io/blog/2015/06/08/cors-support-in-spring-framework
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers(HttpMethod.OPTIONS, "/**");
     }
 
     @SuppressWarnings("deprecation")
