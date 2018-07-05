@@ -61,11 +61,16 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**").allowedOrigins("http://localhost:4200")
                 .allowedOrigins("http://localhost:8080")
-                .allowedOrigins("http://206.189.126.80").allowedHeaders("*").allowedMethods("*").allowCredentials(true)
-                .allowedOrigins("https://app-f4ff65e9-499f-4997-b3f3-15b3f90cc4c9.cleverapps.io").allowedHeaders("*").allowedMethods("*").allowCredentials(true)
-                .allowedOrigins("https://devoirsfaits-demo.cleverapps.io").allowedHeaders("*").allowedMethods("*").allowCredentials(true)
-                .allowedOrigins("http://app-f4ff65e9-499f-4997-b3f3-15b3f90cc4c9.cleverapps.io").allowedHeaders("*").allowedMethods("*").allowCredentials(true)
-                .allowedOrigins("http://devoirsfaits-demo.cleverapps.io").allowedHeaders("*").allowedMethods("*").allowCredentials(true);
+                .allowedOrigins("http://206.189.126.80").allowedHeaders("X-Auth-Token", "Content-Type", "X-Requested-With", "Accept", "Origin", "Authorization", "Access-Control-Request-Method","Access-Control-Request-Headers")
+                .allowedMethods("*").allowCredentials(true)
+                .allowedOrigins("https://app-f4ff65e9-499f-4997-b3f3-15b3f90cc4c9.cleverapps.io").allowedHeaders("X-Auth-Token", "Content-Type", "X-Requested-With", "Accept", "Origin", "Authorization", "Access-Control-Request-Method","Access-Control-Request-Headers")
+                .allowedMethods("*").allowCredentials(true)
+                .allowedOrigins("https://devoirsfaits-demo.cleverapps.io").allowedHeaders("X-Auth-Token", "Content-Type", "X-Requested-With", "Accept", "Origin", "Authorization", "Access-Control-Request-Method","Access-Control-Request-Headers")
+                .allowedMethods("*").allowCredentials(true)
+                .allowedOrigins("http://app-f4ff65e9-499f-4997-b3f3-15b3f90cc4c9.cleverapps.io").allowedHeaders("X-Auth-Token", "Content-Type", "X-Requested-With", "Accept", "Origin", "Authorization", "Access-Control-Request-Method","Access-Control-Request-Headers")
+                .allowedMethods("*").allowCredentials(true)
+                .allowedOrigins("http://devoirsfaits-demo.cleverapps.io").allowedHeaders("X-Auth-Token", "Content-Type", "X-Requested-With", "Accept", "Origin", "Authorization", "Access-Control-Request-Method","Access-Control-Request-Headers")
+                .allowedMethods("*").allowCredentials(true);
             }
         };
 
@@ -78,7 +83,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
         //         .allowedOrigins("http://206.189.126.80")
         //         .allowedOrigins("http://app-f4ff65e9-499f-4997-b3f3-15b3f90cc4c9.cleverapps.io")
         //         .allowedMethods("GET", "POST", "OPTIONS", "PUT","DELETE")
-        //         .allowedHeaders("Content-Type", "X-Requested-With", "Accept", "Origin", "Access-Control-Request-Method","Access-Control-Request-Headers")
+        //         .allowedHeaders("Content-Type", "X-Requested-With", "Accept", "Origin", "Authentication", "Access-Control-Request-Method","Access-Control-Request-Headers")
         //         .exposedHeaders("Access-Control-Allow-Origin")                
         //         .allowedOrigins("http://devoirsfaits-demo.cleverapps.io")
         //         .allowedMethods("GET", "POST", "OPTIONS", "PUT","DELETE")
@@ -115,7 +120,7 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
                 // starts authorizing configurations
                 .authorizeRequests()
                 // ignoring the guest's urls "
-                //.antMatchers("/account/register","/account/login","/logout").permitAll()
+                .antMatchers("/account/register","/account/login","/logout").permitAll()
                 // authenticate all remaining URLS
                 .antMatchers("/**").authenticated().and()
                 /* "/logout" will log the user out by invalidating the HTTP Session,
