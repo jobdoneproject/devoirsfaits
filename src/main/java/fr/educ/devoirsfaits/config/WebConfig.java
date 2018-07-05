@@ -115,6 +115,9 @@ public class WebConfig extends WebSecurityConfigurerAdapter {
     // We can specify our authorization criteria inside this method.
     @Override
     protected void configure(HttpSecurity https) throws Exception {
+        //Required for SSL?
+        // See https://stackoverflow.com/questions/37835342/spring-security-ajax-login-use-http-redirect-instead-of-https
+        //https.requiresChannel().antMatchers("/account/register","/account/login","/logout").requiresSecure();
 
         https.cors().and()
                 // starts authorizing configurations
