@@ -25,7 +25,6 @@ public class AccoutController {
 
     public static final Logger logger = LoggerFactory.getLogger(AccoutController.class);
 
-
     @Autowired
     AdministrateurRepository administrateurRepository;
 
