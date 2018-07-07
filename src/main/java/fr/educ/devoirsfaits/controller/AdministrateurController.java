@@ -17,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/administrateur")
 @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")
-
 public class AdministrateurController {
 
     @Autowired
@@ -79,6 +78,7 @@ public class AdministrateurController {
 
 
     // Update
+    @CrossOrigin(origins = {"*"}, maxAge = 4800, allowCredentials = "false")    
     @PutMapping("{id}")
     public Administrateur update(@PathVariable(value = "id") Long administrateurId,
                                        @Valid @RequestBody Professeur nouvellesDonneesAdministrateur) {
