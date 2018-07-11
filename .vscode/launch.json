@@ -4,12 +4,20 @@
     // Pour plus d'informations, visitez : https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
+            "name": "Debug (Launch) Main",
+            "jdkPath": "${env.JAVA_HOME}/bin",
             "type": "java",
-            "name": "Debug (Attach)",
-            "request": "attach",
-            "hostName": "localhost",
-            "port": 8000
+            "request": "launch",
+            "stopOnEntry": true,
+            "cwd": "${workspaceRoot}/src/main/java",
+            "startupClass": "fr.educ.devoirsfaits.DevoirsfaitsApplication",
+            "options": [
+                "-war",
+                "${workspaceRoot}/target/devoirsfaits-0.0.1-SNAPSHOT.war"
+            ],
+            "args": "--server.port=8080"            
         }
     ]
 }
