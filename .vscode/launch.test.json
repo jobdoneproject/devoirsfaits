@@ -1,0 +1,30 @@
+{
+    "run": {
+        "default": "",
+        "items": [
+            {
+                "name": "devoirsfaits",
+                "projectName": "devoirsfaits",
+                "workingDirectory": "c:\\DEV_RL_\\DevoirsFaits\\devoirsfaits",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    },
+    "debug": {
+        "default": "",
+        "items": [
+            {
+                "name": "devoirsfaits",
+                "projectName": "devoirsfaits",
+                "workingDirectory": "c:\\DEV_RL_\\DevoirsFaits\\devoirsfaits",
+                "args": [],
+                "vmargs": [],
+                "env": {},
+                "preLaunchTask": ""
+            }
+        ]
+    }
+}
